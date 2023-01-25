@@ -1,6 +1,6 @@
 from flask import jsonify, request
-import validation
-from db import Base, User, Menu
+from . import validation
+from .db import Base, User, Menu
 from flask_jwt_extended import get_jwt_identity
 
 

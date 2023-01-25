@@ -1,1 +1,1 @@
-web: gunicorn hesapp:app
+web: gunicorn src.app:APP

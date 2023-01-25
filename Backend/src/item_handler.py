@@ -1,6 +1,6 @@
 from flask import jsonify, request
-import validation
-from db import Base, User, Restaurant, get_db, Item
+from . import validation
+from .db import Base, User, Restaurant, get_db, Item
 import datetime
 from flask_jwt_extended import create_access_token, get_jwt_identity
 import bcrypt
