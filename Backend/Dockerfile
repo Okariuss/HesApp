@@ -5,12 +5,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # copy project files
-COPY . /app
-WORKDIR /app
+COPY . /hesapp
+WORKDIR /hesapp
 
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # run the service
-CMD ["python", "-m", "src"]
+CMD ["python3", "src/app.py"]

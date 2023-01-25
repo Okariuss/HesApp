@@ -3,11 +3,11 @@ from flask_jwt_extended import (
     JWTManager,
     jwt_required,
 )
-from .db import Base, get_db
-from .authentication_handler import AuthenticationHandler
-from .order_handler import OrderHandler
-from .item_handler import ItemHandler
-from .menu_handler import MenuHandler
+from db import Base, get_db
+from authentication_handler import AuthenticationHandler
+from order_handler import OrderHandler
+from item_handler import ItemHandler
+from menu_handler import MenuHandler
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hesapp.db"
@@ -50,4 +50,4 @@ app.route("/get_order", methods=["GET"])(jwt_required()(h_order.get_order))
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=False)
+    app.run(host="0.0.0.0", debug=False)
