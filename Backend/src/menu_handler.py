@@ -95,18 +95,15 @@ class MenuHandler:
         self.db.session.commit()
         return jsonify({"message": "Menu updated successfully"})
 
-    def delete_menu(self):
+    def delete_menu(self, id: int):
         username = get_jwt_identity()
         user = self.db.session.query(User).filter_by(username=username).first()
         if not user:
             return jsonify({"message": "User not found"}), 404
         if user.role != "restaurant":
             return jsonify({"message": "Unauthorized"}), 403
-        data = request.get_json()
-        v = validation.Validator(validation.delete_menu_schema)
-        if not v.validate(data):
-            return jsonify({"message": "Invalid request data", "errors": v.errors}), 400
-        menu = self.db.session.query(Menu).get(data["id"])
+
+        menu = self.db.session.query(Menu).get(id)
         if not menu:
             return jsonify({"message": "Menu not found"}), 404
         if menu.restaurant.user_id != user.id:

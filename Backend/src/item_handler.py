@@ -95,18 +95,15 @@ class ItemHandler:
         self.db.session.commit()
         return jsonify({"message": "Item updated successfully"})
 
-    def delete_item(self):
+    def delete_item(self, id: int):
         username = get_jwt_identity()
         user = self.db.session.query(User).filter_by(username=username).first()
         if not user:
             return jsonify({"message": "User not found"}), 404
         if user.role != "restaurant":
             return jsonify({"message": "Unauthorized"}), 403
-        data = request.get_json()
-        v = validation.Validator(validation.delete_item_schema)
-        if not v.validate(data):
-            return jsonify({"message": "Invalid request data", "errors": v.errors}), 400
-        item = self.db.session.query(Item).get(data["id"])
+
+        item = self.db.session.query(Item).get(id)
         if not item:
             return jsonify({"message": "Item not found"}), 404
         if item.restaurant.user_id != user.id:
