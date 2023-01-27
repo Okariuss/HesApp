@@ -40,7 +40,7 @@ APP.route("/", methods=["GET"])(h_restaurant.qrs)
 
 # Item
 APP.route("/create_item", methods=["POST"])(jwt_required()(h_item.create_item))
-APP.route("/get_items", methods=["GET"])(jwt_required()(h_item.get_items))
+APP.route("/get_items", methods=["GET"])(h_item.get_items)
 APP.route("/update_item", methods=["PUT"])(jwt_required()(h_item.update_item))
 APP.route("/delete_item/<int:id>", methods=["DELETE"])(
     jwt_required()(h_item.delete_item)
@@ -48,7 +48,7 @@ APP.route("/delete_item/<int:id>", methods=["DELETE"])(
 
 # Menu
 APP.route("/create_menu", methods=["POST"])(jwt_required()(h_menu.create_menu))
-APP.route("/get_menus", methods=["GET"])(jwt_required()(h_menu.get_menus))
+APP.route("/get_menus", methods=["GET"])(h_menu.get_menus)
 APP.route("/update_menu", methods=["PUT"])(jwt_required()(h_menu.update_menu))
 APP.route("/delete_menu/<int:id>", methods=["DELETE"])(
     jwt_required()(h_menu.delete_menu)
