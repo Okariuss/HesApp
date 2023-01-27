@@ -1,9 +1,7 @@
 from flask import jsonify, request
 from . import validation
-from .db import Base, User, Restaurant, get_db, Item
-import datetime
-from flask_jwt_extended import create_access_token, get_jwt_identity
-import bcrypt
+from .db import User, Item
+from flask_jwt_extended import get_jwt_identity
 
 
 class ItemHandler:

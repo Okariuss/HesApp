@@ -18,7 +18,6 @@ register_restaurant_schema = {
     "restaurant_contact": {"type": "string", "required": True},
 }
 
-
 login_schema = {
     "username": {
         "required": True,
