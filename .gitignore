@@ -1,2 +1,6 @@
+__pycache__
+.vscode
 .venv
 venv
+build
+dist
