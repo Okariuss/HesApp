@@ -1,0 +1,1147 @@
+openapi: "3.0.0"
+info:
+  version: "1"
+  title: HesApp API
+  description: "API Documentation"
+servers:
+  - url: "https://hesapp.herokuapp.com"
+    description: "staging"
+paths:
+  # AUTHENTICATION
+  /register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/register_customer_schema'
+                - $ref: '#/components/schemas/register_restaurant_schema'
+      responses:
+        200:
+          description: Successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User created successfully
+        400:
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: string
+        409:
+          description: Email or username already registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: This email/username is already registered
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login an existing user
+      requestBody:
+        description: <b>NOTE:Use either username or email. Not both.</b>
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login_schema'
+      responses:
+        200:
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6InVzZXJuYW1lIiwiZXhwaXJlc19kZWx0YSI6IjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwiaWF0IjoxNTc4Nzg3Mjg3fQ.jO1YG-LZu2vO8J7a6UyC6U_9KUvxlR5g5bZoYU5q5Kg
+        400:
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: string
+        401:
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid username or password
+  
+  # PROFILE
+  /get_profile:
+    get:
+      tags:
+        - Profile
+      summary: Get the profile of a logged-in user
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Successfully retrieved profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    example:
+                      {
+                        "username": "john_doe",
+                        "email": "johndoe@example.com",
+                        "role": "customer",
+                        "id": 1
+                      }
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+  /update_profile:
+    put:
+      description: Update user profile
+      tags:
+        - Profile
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: When changing password. Both password and new/confirm password required.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The new username for the user
+                password:
+                  type: string
+                  format: password
+                  description: The current password of the user
+                new_password:
+                  type: string
+                  format: password
+                  description: The new password for the user
+                confirm_new_password:
+                  type: string
+                  format: password
+                  description: The confirmation of the new password
+                email:
+                  type: string
+                  format: email
+                  description: The new email for the user
+                restaurant_name:
+                  type: string
+                  description: The name of the restaurant
+                restaurant_location:
+                  type: string
+                  description: The location of the restaurant
+                restaurant_contact:
+                  type: string
+                  description: The contact information of the restaurant
+      responses:
+        200:
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile updated successfully
+        400:
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: object
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+  /delete-profile:
+    delete:
+      summary: Delete user profile
+      tags:
+        - Profile
+      description: Delete user profile including restaurant if the user has a role of "restaurant"
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Profile deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile deleted successfully
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+  
+  # ITEMS
+  /get_items:
+    get:
+      tags:
+        - Item
+      summary: Get a list of items
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          description: Number of items per page
+        - in: query
+          name: restaurant_id
+          schema:
+            type: integer
+          description: ID of the restaurant
+      responses:
+        200:
+          description: Successfully retrieved items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      example:
+                        {
+                          "id": 1,
+                          "name": "Spaghetti",
+                          "price": 12.5,
+                          "restaurant_id": 1
+                        }
+  /create_item:
+    post:
+      tags:
+        - Item
+      summary: Creates an Item
+      description: Creates an Item for a restaurant
+      operationId: createItem
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - price
+                - quantity
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Item created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item created successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: object
+                    example: {"field": ["error message"]}
+        '409':
+          description: Item with that name already exists in the restaurant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item with that name already exists in the restaurant
+  /update_item:
+    put:
+      tags:
+        - Item
+      summary: Updates an Item
+      description: Updates an Item for a restaurant
+      operationId: updateItem
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Item updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item updated successfully
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: object
+                    example: {"field": ["error message"]}
+        '409':
+          description: Item with this name already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item with this name already exists
+  /delete_item/{id}:
+    delete:
+      tags:
+        - Item
+      summary: Deletes an Item
+      description: Deletes an Item for a restaurant
+      operationId: deleteItem
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id of the Item
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Item deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item deleted successfully
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+  
+  # MENU
+  /get_menus:
+    get:
+      tags:
+        - Menu
+      summary: Get a list of menus
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          description: Number of menus per page
+        - in: query
+          name: restaurant_id
+          schema:
+            type: integer
+          description: ID of the restaurant
+      responses:
+        200:
+          description: Successfully retrieved menus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  menus:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                            type: integer
+                            description: ID of the menu
+                        name:
+                            type: string
+                            description: name of the menu
+                        restaurant_id:
+                            type: integer
+                            description: ID of the restaurant
+  /create_menu:
+    post:
+      tags:
+        - Menu
+      summary: Creates an Menu
+      description: Creates an Menu for a restaurant
+      operationId: createMenu
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - price
+                - quantity
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Menu created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu created successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: object
+                    example: {"field": ["error message"]}
+        '409':
+          description: Menu with that name already exists in the restaurant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu with that name already exists in the restaurant
+  /update_menu:
+    put:
+      tags:
+        - Menu
+      summary: Updates an Menu
+      description: Updates an Menu for a restaurant
+      operationId: updateMenu
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Menu updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu updated successfully
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid request data
+                  errors:
+                    type: object
+                    example: {"field": ["error message"]}
+        '409':
+          description: Menu with this name already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu with this name already exists
+  /delete_menu/{id}:
+    delete:
+      tags:
+        - Menu
+      summary: Deletes an Menu
+      description: Deletes an Menu for a restaurant
+      operationId: deleteMenu
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id of the Menu
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Menu deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu deleted successfully
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Menu not found
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+  
+  # RESTAURANT
+  /get_restaurants:
+    get:
+      tags:
+        - Restaurant
+      summary: Get a list of restaurants
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          description: Number of restaurants per page
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Name of the restaurant
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Location of the restaurant
+      responses:
+        200:
+          description: Successfully retrieved restaurants
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  restaurants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                            type: integer
+                            example: 1
+                        name:
+                            type: string
+                            example: "ABC restaurant"
+                        location:
+                            type: string
+                            example: "New York"
+  /get_items_and_menus:
+    get:
+      tags:
+        - Item
+        - Menu
+      summary: Get a list of items and menus
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          description: Number of items and menus per page
+        - in: query
+          name: restaurant_id
+          schema:
+            type: integer
+          description: ID of the restaurant
+      responses:
+        200:
+          description: Successfully retrieved items and menus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      example:
+                        {
+                          "id": 1,
+                          "name": "Spaghetti",
+                          "price": 12.5,
+                          "restaurant_id": 1
+                        }
+                  menus:
+                    type: array
+                    items:
+                      type: object
+                      example:
+                        {
+                          "id": 1,
+                          "name": "Special menu",
+                          "description": "A special menu",
+                          "restaurant_id": 1
+                        }
+  
+  # ORDER
+  /create_order:
+    post:
+      summary: Creates a new order
+      tags:
+        - Order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - restaurant_id
+                - items
+                - menus
+              properties:
+                restaurant_id:
+                  type: integer
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - quantity
+                    properties:
+                      id:
+                        type: integer
+                      quantity:
+                        type: integer
+                menus:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - quantity
+                    properties:
+                      id:
+                        type: integer
+                      quantity:
+                        type: integer
+      responses:
+        '201':
+          description: Order placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  order_id:
+                    type: integer
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Invalid request data / No items or menus provided in the request / Item not found / Item is not belong to the same restaurant / Item has insufficient quantity / Menu not found / Menu is not belong to the same restaurant / Menu has insufficient quantity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  errors:
+                    type: object
+  /get_orders:
+    get:
+      summary: Retrieve a list of orders
+      tags:
+        - Order
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          description: Number of orders per page
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: user_id
+          in: query
+          description: ID of the user
+          required: false
+          schema:
+            type: integer
+        - name: restaurant_id
+          in: query
+          description: ID of the restaurant
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        user_id:
+                          type: integer
+                        username:
+                          type: string
+                        date:
+                          type: string
+                        total:
+                          type: integer
+                        restaurant_id:
+                          type: integer
+                        restaurant_name:
+                          type: string
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /get_order:
+    get:
+      tags:
+        - Order
+      summary: Get an order by ID
+      parameters:
+        - name: order_id
+          in: query
+          description: The ID of the order to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The order was retrieved successfully
+          content:
+            application/json:
+              schema:
+                properties:
+                  order:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: string
+                      date:
+                        type: string
+                      total:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            quantity:
+                              type: integer
+                            price:
+                              type: integer
+                      menus:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            quantity:
+                              type: integer
+                            price:
+                              type: integer
+        400:
+          description: Missing order_id parameter
+        403:
+          description: Unauthorized
+        404:
+          description: Order not found
+
+
+  
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    register_customer_schema:
+      type: object
+      properties:
+        username:
+          type: string
+          required: 
+            - username
+        password:
+          type: string
+          required: 
+            - password
+        email:
+          type: string
+          required: 
+            - email
+        role:
+          type: string
+          required: 
+            - role
+    register_restaurant_schema:
+      type: object
+      properties:
+        username:
+          type: string
+          required: 
+            - username
+        password:
+          type: string
+          required: 
+            - password
+        email:
+          type: string
+          required: 
+            - email
+        role:
+          type: string
+          required: 
+            - role
+        restaurant_name:
+          type: string
+          required: 
+            - restaurant_name
+        restaurant_location:
+          type: string
+          required: 
+            - restaurant_location
+        restaurant_contact:
+          type: string
+          required: 
+            - restaurant_contact
+    login_schema:
+      type: object
+      required:
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
