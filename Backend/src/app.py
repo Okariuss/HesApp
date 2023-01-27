@@ -3,6 +3,7 @@ from flask_jwt_extended import (
     JWTManager,
     jwt_required,
 )
+from flask_cors import CORS
 from .db import Base, get_db
 from .authentication_handler import AuthenticationHandler
 from .order_handler import OrderHandler
@@ -13,6 +14,7 @@ from .restaurant_handler import RestaurantHandler
 APP = Flask(__name__)
 APP.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hesapp.db"
 APP.config["JWT_SECRET_KEY"] = "thisisakekwsecret007"
+CORS(APP)
 
 db = get_db(APP)
 jwt = JWTManager(APP)
