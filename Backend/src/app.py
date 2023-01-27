@@ -42,6 +42,8 @@ h_restaurant = RestaurantHandler(APP, db)
 # Authentication
 APP.route("/register", methods=["POST"])(h_auth.register)
 APP.route("/login", methods=["POST"])(h_auth.login)
+
+# Profile
 APP.route("/get_profile", methods=["GET"])(jwt_required()(h_auth.get_profile))
 APP.route("/update_profile", methods=["PUT"])(jwt_required()(h_auth.update_profile))
 APP.route("/delete_profile", methods=["DELETE"])(jwt_required()(h_auth.delete_profile))
