@@ -21,6 +21,24 @@ paths:
               oneOf:
                 - $ref: '#/components/schemas/register_customer_schema'
                 - $ref: '#/components/schemas/register_restaurant_schema'
+            examples:
+              customer_register:
+                summary: Customer Register
+                value:
+                  username: johndoe
+                  password: password123
+                  email: johndoe@gmail.com
+                  role: customer
+              restaurant_register:
+                summary: Restaurant Register
+                value:
+                  username: burgerking
+                  password: password123
+                  email: burgerking@gmail.com
+                  role: restaurant
+                  restaurant_name: Burger King
+                  restaurant_location: Antalya
+                  restaurant_contact: 0555 555 55 55
       responses:
         200:
           description: Successfully registered
@@ -66,6 +84,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/login_schema'
+            examples:
+              username_login:
+                summary: Username Login
+                value:
+                  username: johndoe
+                  password: password123
+              email_login:
+                summary: Email Login
+                value:
+                  username: johndoe@gmail.com
+                  password: password123
       responses:
         200:
           description: Successfully logged in
@@ -125,6 +154,11 @@ paths:
                         "role": "customer",
                         "id": 1
                       }
+              example:
+                username: john_doe
+                email: johndoe@example.com
+                role: customer
+                id: 1
         404:
           description: User not found
           content:
@@ -148,36 +182,29 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  description: The new username for the user
-                password:
-                  type: string
-                  format: password
-                  description: The current password of the user
-                new_password:
-                  type: string
-                  format: password
-                  description: The new password for the user
-                confirm_new_password:
-                  type: string
-                  format: password
-                  description: The confirmation of the new password
-                email:
-                  type: string
-                  format: email
-                  description: The new email for the user
-                restaurant_name:
-                  type: string
-                  description: The name of the restaurant
-                restaurant_location:
-                  type: string
-                  description: The location of the restaurant
-                restaurant_contact:
-                  type: string
-                  description: The contact information of the restaurant
+              oneOf:
+                - $ref: '#/components/schemas/update_customer_profile_schema'
+                - $ref: '#/components/schemas/update_restaurant_profile_schema'
+            examples:
+              update_customer_profile:
+                summary: Update Customer Profile
+                value:
+                  username: johndoe
+                  password: password123
+                  new_password: password321
+                  confirm_new_password: password321
+                  email: johndoe@gmail.com
+              update_restaurant_profile:
+                summary: Update Restaurant Profile
+                value:
+                  username: burgerking
+                  password: password123
+                  new_password: password321
+                  confirm_new_password: password321
+                  email: burgerking@gmail.com
+                  restaurant_name: Burger King
+                  restaurant_location: Antalya
+                  restaurant_contact: 0555 555 55 55
       responses:
         200:
           description: Profile updated successfully
@@ -878,6 +905,8 @@ paths:
       summary: Creates a new order
       tags:
         - Order
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -952,6 +981,8 @@ paths:
       summary: Retrieve a list of orders
       tags:
         - Order
+      security:
+        - BearerAuth: []
       parameters:
         - name: page
           in: query
@@ -1019,6 +1050,8 @@ paths:
     get:
       tags:
         - Order
+      security:
+        - BearerAuth: []
       summary: Get an order by ID
       parameters:
         - name: order_id
@@ -1144,4 +1177,57 @@ components:
           type: string
         password:
           type: string
+    update_customer_profile_schema:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The new username for the user
+        password:
+          type: string
+          format: password
+          description: The current password of the user
+        new_password:
+          type: string
+          format: password
+          description: The new password for the user
+        confirm_new_password:
+          type: string
+          format: password
+          description: The confirmation of the new password
+        email:
+          type: string
+          format: email
+          description: The new email for the user
+    update_restaurant_profile_schema:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The new username for the user
+        password:
+          type: string
+          format: password
+          description: The current password of the user
+        new_password:
+          type: string
+          format: password
+          description: The new password for the user
+        confirm_new_password:
+          type: string
+          format: password
+          description: The confirmation of the new password
+        email:
+          type: string
+          format: email
+          description: The new email for the user
+        restaurant_name:
+          type: string
+          description: The name of the restaurant
+        restaurant_location:
+          type: string
+          description: The location of the restaurant
+        restaurant_contact:
+          type: string
+          description: The contact information of the restaurant
 
