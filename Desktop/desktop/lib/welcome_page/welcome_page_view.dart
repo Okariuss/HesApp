@@ -1,3 +1,4 @@
+import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/core/theme/theme.dart';
 import 'package:desktop/sign_in/sign_in_view.dart';
@@ -27,15 +28,15 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   const Text(
                     LanguageItems.welcomeText,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                    style: TextStyle(
+                        fontWeight: Constants.bold,
+                        fontSize: Constants.titleSize),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  Constants.kdefaultSizedBoxSize,
                   const Text(
                     LanguageItems.welcomeDescription,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: Constants.contentSize),
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height / 3,

@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       TextFormField(
                         controller: usernameController,
+                        cursorColor: Constants.buttonTextColor,
                         decoration: const InputDecoration(
                           labelText: LanguageItems.email,
                           labelStyle:
@@ -86,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextFormField(
                         controller: passwordController,
                         obscureText: true,
+                        cursorColor: Constants.buttonTextColor,
                         decoration: const InputDecoration(
                           labelText: LanguageItems.password,
                           labelStyle:

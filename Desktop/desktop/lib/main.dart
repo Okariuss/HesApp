@@ -2,7 +2,7 @@ import 'package:desktop/core/theme/theme.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:desktop/viewModel/settings_view_model.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
-import 'package:desktop/welcome_page/welcome_page.dart';
+import 'package:desktop/welcome_page/welcome_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
