@@ -13,6 +13,8 @@ class Constants {
 
   // Paddings
   static const EdgeInsets defaultPadding = EdgeInsets.all(16.0);
+  static const EdgeInsets bigPadding = EdgeInsets.all(32.0);
+  static const EdgeInsets smallPadding = EdgeInsets.all(8.0);
   static const EdgeInsets titlePadding =
       EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
   static const EdgeInsets contentPadding =
@@ -35,10 +37,17 @@ class Constants {
   static const Color secondaryColor = Colors.white;
   static const Color buttonTextColor = Color(0xffffeb3f);
   static const Color errorColor = Colors.red;
+  static const Color tableDetailsColor = Color.fromARGB(255, 174, 168, 168);
 
   // Sizedbox
+  static const SizedBox ksmallSizedBoxSize = SizedBox(
+    height: 16.0,
+  );
   static const SizedBox kdefaultSizedBoxSize = SizedBox(
     height: 32.0,
+  );
+  static const SizedBox kbigSizedBoxSize = SizedBox(
+    height: 64.0,
   );
 
   // RoundedRectangleBorder

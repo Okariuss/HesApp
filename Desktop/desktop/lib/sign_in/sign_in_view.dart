@@ -1,7 +1,8 @@
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
-import 'package:desktop/screens/MainPage/main_page.dart';
+import 'package:desktop/main_page/main_page.dart';
 import 'package:desktop/sign_in/sign_in_view_model.dart';
+import 'package:desktop/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:desktop/utils/util.dart';
 
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Column(
                   children: [
-                    const Text(
+                    Text(
                       LanguageItems.login,
                       style: TextStyle(
                         fontSize: Constants.titleSize,
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Constants.kdefaultSizedBoxSize,
-                    const Text(
+                    Text(
                       LanguageItems.welcomeBack,
                       style: TextStyle(
                         fontSize: Constants.contentSize,
@@ -63,19 +64,12 @@ class _LoginPageState extends State<LoginPage> {
                   padding: Constants.bigHorizontalSymmetricPadding,
                   child: Column(
                     children: [
-                      TextFormField(
+                      CustomTextFormField(
                         controller: usernameController,
                         cursorColor: Constants.buttonTextColor,
-                        decoration: const InputDecoration(
-                          labelText: LanguageItems.email,
-                          labelStyle:
-                              TextStyle(color: Constants.secondaryColor),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Constants.buttonTextColor,
-                            ),
-                          ),
-                        ),
+                        labelText: LanguageItems.email,
+                        labelColor: Constants.secondaryColor,
+                        focusedBorderColor: Constants.buttonTextColor,
                         focusNode: _usernameFocusNode,
                         onChanged: (value) {
                           setState(() {
@@ -84,21 +78,13 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       Constants.kdefaultSizedBoxSize,
-                      TextFormField(
+                      CustomTextFormField(
                         controller: passwordController,
                         obscureText: true,
                         cursorColor: Constants.buttonTextColor,
-                        decoration: const InputDecoration(
-                          labelText: LanguageItems.password,
-                          labelStyle:
-                              TextStyle(color: Constants.secondaryColor),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Constants
-                                  .buttonTextColor, // Change color when focused
-                            ),
-                          ),
-                        ),
+                        labelText: LanguageItems.password,
+                        labelColor: Constants.secondaryColor,
+                        focusedBorderColor: Constants.buttonTextColor,
                         focusNode: _passwordFocusNode,
                         onChanged: (value) {
                           setState(() {
@@ -161,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
               Future.delayed(Duration.zero, () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const MainPage()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                   (route) =>
                       false, // Remove all previous routes from the history
                 );

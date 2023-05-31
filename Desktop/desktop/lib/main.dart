@@ -1,4 +1,5 @@
 import 'package:desktop/core/theme/theme.dart';
+import 'package:desktop/main_page/main_page.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:desktop/viewModel/settings_view_model.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
@@ -25,7 +26,7 @@ class MainWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const WelcomePage(),
+      home: const MainPage(),
     );
   }
 }

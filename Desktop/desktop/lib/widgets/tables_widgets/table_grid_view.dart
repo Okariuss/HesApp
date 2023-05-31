@@ -1,8 +1,12 @@
+import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 
 class TableGridView extends StatelessWidget {
+  const TableGridView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TablesScreenViewModel>(context);
@@ -22,22 +26,19 @@ class TableGridView extends StatelessWidget {
             viewModel.setSelectedTable(table.table);
           },
           child: Container(
-            margin: const EdgeInsets.all(8.0),
+            margin: Constants.smallPadding,
             decoration: BoxDecoration(
               color: tableColor,
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: Constants.smallBorderRadius,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(table.table,
                     style: Theme.of(context).textTheme.bodyMedium),
-                const SizedBox(height: 4.0),
+                Constants.ksmallSizedBoxSize,
                 Text(
-                  'Members: $memberCount',
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  '${LanguageItems.members}: $memberCount',
                 ),
               ],
             ),

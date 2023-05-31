@@ -1,3 +1,5 @@
+import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:flutter/material.dart';
 
 class RenameTableDialog extends StatefulWidget {
@@ -27,19 +29,32 @@ class RenameTableDialogState extends State<RenameTableDialog> {
         ),
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            final newName = _newNameController.text;
-            if (newName.isNotEmpty) {
-              widget.onRename(newName);
-              Navigator.of(context).pop();
-            }
-          },
-          child: const Text('Rename'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.height / 4,
+              child: ElevatedButton(
+                  onPressed: () {
+                    final newName = _newNameController.text;
+                    if (newName.isNotEmpty) {
+                      widget.onRename(newName);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Text(LanguageItems.rename)),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.height / 4,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(LanguageItems.cancel),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Constants.errorColor)),
+              ),
+            ),
+          ],
         ),
       ],
     );

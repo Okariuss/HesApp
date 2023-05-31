@@ -1,11 +1,14 @@
+import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/models/member.dart';
-import 'package:desktop/models/table.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:desktop/widgets/tables_widgets/member_deliveries_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TableDetailsView extends StatelessWidget {
+  const TableDetailsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TablesScreenViewModel>(context);
@@ -13,109 +16,107 @@ class TableDetailsView extends StatelessWidget {
     final tableName = selectedTable ?? '';
 
     if (selectedTable == null) {
-      return const Text('Select a table');
-    }
-
-    if (tableData == null) {
-      return const Text('Table not found');
+      return Text(LanguageItems.selectTable);
     }
 
     final members = viewModel.getMembersAtTable(tableName);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 10),
-        Text(tableName, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
-        if (members.isNotEmpty)
+    if (members.isNotEmpty) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           MemberDeliveriesListView(members: members.cast<Member>()),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                viewModel.renameTableDialog(
-                  context,
-                  tableName,
-                  (newName) => viewModel.renameTable(tableName, newName),
-                );
-              },
-              icon: const Icon(Icons.edit),
-              label: const Text('Rename'),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                viewModel.removeTableDialog(
-                  context,
-                  tableName,
-                  () => viewModel.removeTable(tableName),
-                );
-              },
-              icon: const Icon(Icons.delete),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          Constants.kdefaultSizedBoxSize,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.height / 4,
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      viewModel.renameTableDialog(
+                          context,
+                          tableName,
+                          (newName) =>
+                              viewModel.renameTable(tableName, newName));
+                    },
+                    icon: Icon(Icons.edit),
+                    label: Text(LanguageItems.rename)),
               ),
-              label: const Text('Delete'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        ElevatedButton.icon(
-          onPressed: () {
-            viewModel.moveSelectedMembersToTableDialog(context, tableName);
-          },
-          icon: const Icon(Icons.arrow_forward),
-          label: const Text('Move Selected Members to Another Table'),
-        ),
-        ElevatedButton.icon(
-          onPressed: () {
-            viewModel.moveMembersToTableDialog(
-              context,
-              tableName,
-              (newTableName) {
-                if (newTableName != null) {
-                  if (newTableName != tableName) {
-                    final targetTable = tableData
-                        .firstWhere((table) => table.table == newTableName);
-                    if (targetTable != null) {
-                      targetTable.members?.addAll(members.toList());
-                    } else {
-                      viewModel.addTable(newTableName);
-                      final newTable = tableData.last;
-                      newTable.members?.addAll(members.toList());
-                    }
-
-                    final sourceTable = tableData
-                        .firstWhere((table) => table.table == tableName);
-                    if (sourceTable != null) {
-                      final newMembers = sourceTable.members!.toList();
-                      newMembers
-                          .removeWhere((member) => members.contains(member));
-
-                      final newTableData =
-                          Tables(table: sourceTable.table, members: newMembers);
-
-                      tableData = tableData
-                          .where((table) => table.table != sourceTable.table)
-                          .toList()
-                        ..add(newTableData);
-                    }
-
-                    // Update the selected table if necessary
-                    if (viewModel.selectedTable == tableName) {
-                      viewModel.setSelectedTable(newTableName);
-                    }
-                  }
-                }
-              },
-            );
-          },
-          icon: const Icon(Icons.move_to_inbox),
-          label: const Text('Move All Members to Another Table'),
-        ),
-      ],
-    );
+              Container(
+                width: MediaQuery.of(context).size.height / 4,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.delete),
+                  label: Text(LanguageItems.delete),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Constants.errorColor)),
+                ),
+              ),
+            ],
+          ),
+          Constants.kdefaultSizedBoxSize,
+          ElevatedButton.icon(
+            onPressed: () {
+              viewModel.moveSelectedMembersToTableDialog(context, tableName);
+            },
+            icon: const Icon(Icons.arrow_forward),
+            label: const Text(LanguageItems.moveSelectedMembers),
+          ),
+          Constants.ksmallSizedBoxSize,
+          ElevatedButton.icon(
+            onPressed: () {
+              viewModel.moveMembersToTableDialog(
+                context,
+                tableName,
+                (newTableName) {},
+              );
+            },
+            icon: const Icon(Icons.move_to_inbox),
+            label: const Text(LanguageItems.moveAllMembers),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Constants.kbigSizedBoxSize,
+          Text(LanguageItems.noMember),
+          Constants.kbigSizedBoxSize,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.height / 4,
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      viewModel.renameTableDialog(
+                          context,
+                          tableName,
+                          (newName) =>
+                              viewModel.renameTable(tableName, newName));
+                    },
+                    icon: Icon(Icons.edit),
+                    label: Text(LanguageItems.rename)),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.height / 4,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.delete),
+                  label: Text(LanguageItems.delete),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Constants.errorColor)),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ); // Return an empty SizedBox if there are no members
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/models/member.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +11,13 @@ class MemberDeliveriesListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (var member in members)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('${member.name}\'s Accepted Deliveries:'),
+              Constants.ksmallSizedBoxSize,
               if (member.acceptedOrders.isEmpty)
                 const Text('- No accepted deliveries')
               else
@@ -35,15 +36,17 @@ class MemberDeliveriesListView extends StatelessWidget {
                       ),
                   ],
                 ),
-              const SizedBox(height: 5),
+              Constants.ksmallSizedBoxSize,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Text('Total Price: '),
                   Text('${member.totalPrice} TL'),
                 ],
               ),
-              const Divider(),
+              const Divider(
+                color: Constants.primaryColor,
+              ),
             ],
           ),
       ],

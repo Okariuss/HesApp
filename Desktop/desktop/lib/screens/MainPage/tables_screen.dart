@@ -1,3 +1,4 @@
+import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:desktop/widgets/tables_widgets/add_table_dialog.dart';
 import 'package:desktop/widgets/tables_widgets/table_details.view.dart';
@@ -24,12 +25,9 @@ class TablesScreen extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  height: double.infinity,
-                  color: const Color.fromARGB(255, 174, 168, 168),
-                  child: SingleChildScrollView(
-                    child: TableDetailsView(),
-                  ),
-                ),
+                    height: screenSize.height,
+                    color: Constants.tableDetailsColor,
+                    child: TableDetailsView()),
               ),
             ],
           );

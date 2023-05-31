@@ -1,4 +1,5 @@
 import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/screens/MainPage/menu_screen.dart';
 import 'package:desktop/screens/MainPage/orders_screen.dart';
 import 'package:desktop/screens/MainPage/payment_screen.dart';
@@ -68,11 +69,13 @@ class _MainPageState extends State<MainPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TabBar(
+                      indicatorColor: Constants.buttonTextColor,
                       tabs: [
-                        CustomTab(text: 'Tables'),
-                        CustomTab(text: 'Menu'),
-                        CustomTabCount(orderCount: orderCount),
-                        CustomTab(text: 'Payments'),
+                        CustomTab(text: LanguageItems.tables),
+                        CustomTab(text: LanguageItems.menu),
+                        CustomTabCount(
+                            orderCount: orderCount, text: LanguageItems.orders),
+                        CustomTab(text: LanguageItems.payments),
                       ],
                       indicatorPadding: Constants.defaultPadding,
                       isScrollable: true,

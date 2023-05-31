@@ -1,3 +1,5 @@
+import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/models/member.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:flutter/material.dart';
@@ -46,19 +48,35 @@ class MoveMembersToTableDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            if (selectedTable != null) {
-              provider.moveMembersToTable(
-                  memberList, sourceTable, selectedTable);
-            }
-            Navigator.pop(context);
-          },
-          child: Text('OK'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 16,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Constants.errorColor)),
+                child: const Text(LanguageItems.cancel),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 16,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedTable != null) {
+                    provider.moveMembersToTable(
+                        memberList, sourceTable, selectedTable);
+                  }
+                  Navigator.pop(context);
+                },
+                child: const Text(LanguageItems.ok),
+              ),
+            ),
+          ],
         ),
       ],
     );

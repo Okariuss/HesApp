@@ -6,15 +6,17 @@ class CustomTabCount extends StatelessWidget {
   const CustomTabCount({
     super.key,
     required this.orderCount,
+    required this.text,
   });
 
   final ValueNotifier<int> orderCount;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CustomTab(text: 'Orders'),
+        CustomTab(text: text),
         ValueListenableBuilder<int>(
           valueListenable: orderCount,
           builder: (context, value, _) {
