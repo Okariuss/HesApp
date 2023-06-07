@@ -1,10 +1,9 @@
+import 'package:desktop/core/init/cache/local_manager.dart';
+import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/core/theme/theme.dart';
-import 'package:desktop/main_page/main_page.dart';
-import 'package:desktop/sign_in/sign_in_view.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:desktop/viewModel/settings_view_model.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
-import 'package:desktop/welcome_page/welcome_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,18 +15,26 @@ void main() {
     ChangeNotifierProvider(create: (context) => TablesScreenViewModel()),
     ChangeNotifierProvider(create: (context) => SettingsViewModel()),
     ChangeNotifierProvider(create: (context) => OrdersViewModel())
-  ], child: const MainWidget()));
+  ], child: MainWidget()));
+}
+
+Future<void> _init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalManager.preferencesInit();
 }
 
 class MainWidget extends StatelessWidget {
-  const MainWidget({super.key});
+  final _appRouter = AppRouter();
+  MainWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationProvider: _appRouter.routeInfoProvider(),
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const WelcomePage(),
     );
   }
 }

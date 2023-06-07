@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/models/menu_category.dart';
 import 'package:desktop/models/menu_item.dart';
 import 'package:desktop/viewModel/menu_view_model.dart';
@@ -7,6 +8,7 @@ import 'package:desktop/widgets/menu_widgets/menu_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

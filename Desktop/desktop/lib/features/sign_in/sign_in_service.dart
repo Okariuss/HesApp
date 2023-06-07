@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-import '../utils/util.dart';
+import '../../utils/util.dart';
 
-class SignInViewModel {
+class SignInService {
   static Future<String> authenticate(
     String? email,
     String? password,

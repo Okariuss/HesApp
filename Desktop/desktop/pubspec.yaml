@@ -35,6 +35,8 @@ dependencies:
   image_picker: ^0.8.7+4
   provider: ^6.0.5
   file_picker: ^5.3.0
+  auto_route: ^7.4.0
+  shared_preferences: ^2.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -44,6 +46,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  auto_route_generator: ^7.1.1
+  build_runner: 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

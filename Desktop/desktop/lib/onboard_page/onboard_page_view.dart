@@ -1,17 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
+import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/core/theme/theme.dart';
-import 'package:desktop/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+@RoutePage()
+class OnboardPageView extends StatelessWidget {
+  const OnboardPageView({super.key});
 
-  @override
-  State<WelcomePage> createState() => _WelcomePageState();
-}
-
-class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,12 +45,13 @@ class _WelcomePageState extends State<WelcomePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
+                        context.router.popAndPush(const LoginPageViewRoute());
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const LoginPageView(),
+                        //   ),
+                        // );
                       },
                       child: const Text(
                         LanguageItems.login,

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:desktop/widgets/tables_widgets/add_table_dialog.dart';
@@ -6,6 +7,7 @@ import 'package:desktop/widgets/tables_widgets/table_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class TablesScreen extends StatelessWidget {
   const TablesScreen({Key? key}) : super(key: key);
 

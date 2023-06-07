@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/models/member.dart';
 import 'package:desktop/models/table.dart';
 import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

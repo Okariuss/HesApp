@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/screens/MainPage/order_details_screen.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

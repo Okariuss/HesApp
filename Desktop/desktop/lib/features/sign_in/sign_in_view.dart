@@ -1,19 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
-import 'package:desktop/main_page/main_page.dart';
-import 'package:desktop/sign_in/sign_in_view_model.dart';
+import 'package:desktop/core/init/routes/app_router.dart';
+import 'package:desktop/features/sign_in/sign_in_service.dart';
 import 'package:desktop/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:desktop/utils/util.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+@RoutePage()
+class LoginPageView extends StatefulWidget {
+  const LoginPageView({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPageView> createState() => _LoginPageViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageViewState extends State<LoginPageView> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FocusNode _usernameFocusNode = FocusNode();
@@ -106,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 60,
                       onPressed: () {
                         _showEditInfo(
-                          SignInViewModel.authenticate(Me.mail, Me.password),
+                          SignInService.authenticate(Me.mail, Me.password),
                         );
                       },
                       color: Constants.buttonTextColor,
@@ -145,12 +147,13 @@ class _LoginPageState extends State<LoginPage> {
               );
             } else if (snapshot.hasData) {
               Future.delayed(Duration.zero, () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
-                  (route) =>
-                      false, // Remove all previous routes from the history
-                );
+                context.router.popAndPush(const MainPageViewRoute());
+                // Navigator.pushAndRemoveUntil(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MainPageView()),
+                //   (route) =>
+                //       false, // Remove all previous routes from the history
+                // );
               });
               return Container(); // Empty container since we're navigating away
             } else if (snapshot.hasError) {
