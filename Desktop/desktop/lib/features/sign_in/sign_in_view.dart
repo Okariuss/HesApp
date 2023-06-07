@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/enums/local_keys_enum.dart';
 import 'package:desktop/core/constants/language_items.dart';
+import 'package:desktop/core/init/cache/local_manager.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/features/sign_in/sign_in_service.dart';
 import 'package:desktop/widgets/custom_text_form_field.dart';
@@ -40,100 +42,108 @@ class _LoginPageViewState extends State<LoginPageView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Column(
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      LanguageItems.login,
-                      style: TextStyle(
-                        fontSize: Constants.titleSize,
-                        fontWeight: Constants.bold,
-                      ),
-                    ),
-                    Constants.kdefaultSizedBoxSize,
-                    Text(
-                      LanguageItems.welcomeBack,
-                      style: TextStyle(
-                        fontSize: Constants.contentSize,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Constants.kdefaultSizedBoxSize,
-                  ],
-                ),
-                Padding(
-                  padding: Constants.bigHorizontalSymmetricPadding,
-                  child: Column(
-                    children: [
-                      CustomTextFormField(
-                        controller: usernameController,
-                        cursorColor: Constants.buttonTextColor,
-                        labelText: LanguageItems.email,
-                        labelColor: Constants.secondaryColor,
-                        focusedBorderColor: Constants.buttonTextColor,
-                        focusNode: _usernameFocusNode,
-                        onChanged: (value) {
-                          setState(() {
-                            Me.setMail = value;
-                          });
-                        },
-                      ),
-                      Constants.kdefaultSizedBoxSize,
-                      CustomTextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        cursorColor: Constants.buttonTextColor,
-                        labelText: LanguageItems.password,
-                        labelColor: Constants.secondaryColor,
-                        focusedBorderColor: Constants.buttonTextColor,
-                        focusNode: _passwordFocusNode,
-                        onChanged: (value) {
-                          setState(() {
-                            Me.setPassword = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: Constants.defaultPadding,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: Constants.bigBorderRadius,
-                    ),
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      height: 60,
-                      onPressed: () {
-                        _showEditInfo(
-                          SignInService.authenticate(Me.mail, Me.password),
-                        );
-                      },
-                      color: Constants.buttonTextColor,
-                      shape: Constants.defaultRectangleRadius,
-                      child: const Text(
-                        LanguageItems.login,
-                        style: TextStyle(
-                          fontWeight: Constants.semiBold,
-                          fontSize: Constants.subtitleSize,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _buildHeader(),
+            _buildFormFields(),
+            _buildLoginButton(),
           ],
         ),
       ),
     );
   }
 
-  void _showEditInfo(Future<String> myFuture) {
-    showDialog(
+  Padding _buildLoginButton() {
+    return Padding(
+      padding: Constants.defaultPadding,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: Constants.bigBorderRadius,
+        ),
+        child: MaterialButton(
+          minWidth: double.infinity,
+          height: 60,
+          onPressed: () {
+            _showEditInfo(
+              SignInService.authenticate(Me.mail, Me.password),
+            );
+          },
+          color: Constants.buttonTextColor,
+          shape: Constants.defaultRectangleRadius,
+          child: const Text(
+            LanguageItems.login,
+            style: TextStyle(
+              fontWeight: Constants.semiBold,
+              fontSize: Constants.subtitleSize,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding _buildFormFields() {
+    return Padding(
+      padding: Constants.bigHorizontalSymmetricPadding,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            controller: usernameController,
+            cursorColor: Constants.buttonTextColor,
+            labelText: LanguageItems.email,
+            labelColor: Constants.secondaryColor,
+            focusedBorderColor: Constants.buttonTextColor,
+            focusNode: _usernameFocusNode,
+            onChanged: (value) {
+              setState(() {
+                Me.setMail = value;
+              });
+            },
+          ),
+          Constants.kdefaultSizedBoxSize,
+          CustomTextFormField(
+            controller: passwordController,
+            obscureText: true,
+            cursorColor: Constants.buttonTextColor,
+            labelText: LanguageItems.password,
+            labelColor: Constants.secondaryColor,
+            focusedBorderColor: Constants.buttonTextColor,
+            focusNode: _passwordFocusNode,
+            onChanged: (value) {
+              setState(() {
+                Me.setPassword = value;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _buildHeader() {
+    return Column(
+      children: const [
+        Text(
+          LanguageItems.login,
+          style: TextStyle(
+            fontSize: Constants.titleSize,
+            fontWeight: Constants.bold,
+          ),
+        ),
+        Constants.kdefaultSizedBoxSize,
+        Text(
+          LanguageItems.welcomeBack,
+          style: TextStyle(
+            fontSize: Constants.contentSize,
+            color: Colors.white,
+          ),
+        ),
+        Constants.kdefaultSizedBoxSize,
+      ],
+    );
+  }
+
+  Future _showEditInfo(Future<String> myFuture) {
+    return showDialog(
       barrierDismissible: false,
       context: context,
       builder: (_) {
@@ -146,14 +156,16 @@ class _LoginPageViewState extends State<LoginPageView> {
                 title: Center(child: CircularProgressIndicator()),
               );
             } else if (snapshot.hasData) {
-              Future.delayed(Duration.zero, () {
-                context.router.popAndPush(const MainPageViewRoute());
-                // Navigator.pushAndRemoveUntil(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => MainPageView()),
-                //   (route) =>
-                //       false, // Remove all previous routes from the history
-                // );
+              Future.delayed(Duration.zero, () async {
+                await LocalManager.instance.setBoolValue(
+                  PreferencesKeys.IS_FIRST_APP,
+                  false,
+                );
+                await LocalManager.instance.setBoolValue(
+                  PreferencesKeys.IS_LOGGED_IN, // New line: Save login status
+                  true,
+                );
+                context.router.replace(const MainPageViewRoute());
               });
               return Container(); // Empty container since we're navigating away
             } else if (snapshot.hasError) {

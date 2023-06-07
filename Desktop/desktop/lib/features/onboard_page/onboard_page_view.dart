@@ -45,7 +45,7 @@ class OnboardPageView extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        context.router.popAndPush(const LoginPageViewRoute());
+                        context.router.replace(const LoginPageViewRoute());
                         // Navigator.pushReplacement(
                         //   context,
                         //   MaterialPageRoute(

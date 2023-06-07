@@ -1,3 +1,4 @@
+import 'package:desktop/core/constants/enums/local_keys_enum.dart';
 import 'package:desktop/core/init/cache/local_manager.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/core/theme/theme.dart';
@@ -9,7 +10,9 @@ import 'package:provider/provider.dart';
 
 import 'viewModel/menu_view_model.dart';
 
-void main() {
+void main() async {
+  await _init();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MenuViewModel()),
     ChangeNotifierProvider(create: (context) => TablesScreenViewModel()),
@@ -25,7 +28,7 @@ Future<void> _init() async {
 
 class MainWidget extends StatelessWidget {
   final _appRouter = AppRouter();
-  MainWidget({super.key});
+  MainWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

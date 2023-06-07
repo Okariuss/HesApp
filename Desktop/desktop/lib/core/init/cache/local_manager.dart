@@ -39,4 +39,9 @@ class LocalManager {
 
   bool getBoolValue(PreferencesKeys key) =>
       _preferences?.getBool(key.toString()) ?? true;
+
+  bool get isLoggedIn => getBoolValue(PreferencesKeys.IS_LOGGED_IN);
+
+  set isLoggedIn(bool value) =>
+      setBoolValue(PreferencesKeys.IS_LOGGED_IN, value);
 }
