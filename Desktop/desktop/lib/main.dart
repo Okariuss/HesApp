@@ -1,41 +1,69 @@
-import 'package:desktop/core/constants/enums/local_keys_enum.dart';
 import 'package:desktop/core/init/cache/local_manager.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/core/theme/theme.dart';
+import 'package:desktop/features/settings_page/settings_page_view_model.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
+import 'package:desktop/utils/util.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
-import 'package:desktop/viewModel/settings_view_model.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'viewModel/menu_view_model.dart';
 
-void main() async {
-  await _init();
-
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => MenuViewModel()),
-    ChangeNotifierProvider(create: (context) => TablesScreenViewModel()),
-    ChangeNotifierProvider(create: (context) => SettingsViewModel()),
-    ChangeNotifierProvider(create: (context) => OrdersViewModel())
-  ], child: MainWidget()));
+void main() {
+  runApp(MainApp());
 }
 
-Future<void> _init() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await LocalManager.preferencesInit();
+class MainApp extends StatelessWidget {
+  final _appRouter = AppRouter();
+
+  Future<void> _initApp(BuildContext context) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Me.init();
+    await LocalManager.preferencesInit();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initApp(context),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => MenuViewModel()),
+              ChangeNotifierProvider(
+                  create: (context) => TablesScreenViewModel()),
+              ChangeNotifierProvider(create: (context) => SettingsViewModel()),
+              ChangeNotifierProvider(create: (context) => OrdersViewModel()),
+            ],
+            child: MainWidget(appRouter: _appRouter),
+          );
+        } else {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
 }
 
 class MainWidget extends StatelessWidget {
-  final _appRouter = AppRouter();
-  MainWidget({Key? key}) : super(key: key);
+  final AppRouter appRouter;
+
+  MainWidget({Key? key, required this.appRouter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routeInformationProvider: _appRouter.routeInfoProvider(),
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      routeInformationProvider: appRouter.routeInfoProvider(),
+      routerDelegate: appRouter.delegate(),
+      routeInformationParser: appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
     );

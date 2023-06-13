@@ -7,6 +7,7 @@ class MenuItemList extends StatelessWidget {
   final Function(MenuItem) onItemTap;
 
   const MenuItemList({
+    super.key,
     required this.items,
     required this.onItemTap,
   });

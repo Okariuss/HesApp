@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class AddItemDialog extends StatefulWidget {
   final String title;
   final MenuItem? item;
@@ -15,13 +16,15 @@ class AddItemDialog extends StatefulWidget {
   File? selectedImage;
 
   AddItemDialog(
-      {required this.title,
+      {super.key,
+      required this.title,
       this.item,
       required this.categories,
       this.category,
       this.selectedImage});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddItemDialogState createState() => _AddItemDialogState();
 }
 
@@ -84,12 +87,12 @@ class _AddItemDialogState extends State<AddItemDialog> {
                         width: 200,
                         height: 200,
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
             ElevatedButton(
               onPressed: () {
                 _pickFile();
               },
-              child: Text('Change Image'),
+              child: const Text('Change Image'),
             ),
             _buildTextField(_nameController, 'Name'),
             _buildTextField(_descriptionController, 'Description'),
@@ -134,7 +137,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
   Widget _buildCancelButton() {
     return TextButton(
       onPressed: () => Navigator.pop(context),
-      child: Text('Cancel'),
+      child: const Text('Cancel'),
     );
   }
 
@@ -168,7 +171,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           Navigator.pop(context);
         }
       },
-      child: Text('Save'),
+      child: const Text('Save'),
     );
   }
 }

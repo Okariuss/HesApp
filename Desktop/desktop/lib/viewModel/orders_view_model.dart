@@ -1,7 +1,7 @@
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/models/delivery.dart';
 import 'package:desktop/models/member.dart';
 import 'package:desktop/models/table.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:flutter/material.dart';
 
 class OrdersViewModel extends ChangeNotifier {
@@ -49,7 +49,6 @@ class OrdersViewModel extends ChangeNotifier {
   }
 
   void notifyOrderCount() {
-    print("Order count updated. ${orders.length}");
     notifyListeners();
   }
 }

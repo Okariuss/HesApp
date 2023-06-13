@@ -7,6 +7,7 @@ class RenameTableDialog extends StatefulWidget {
   final Function(String) onRename;
 
   const RenameTableDialog({
+    super.key,
     required this.oldName,
     required this.onRename,
   });
@@ -21,18 +22,18 @@ class RenameTableDialogState extends State<RenameTableDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Rename Table'),
+      title: const Text(LanguageItems.renameTable),
       content: TextField(
         controller: _newNameController,
-        decoration: InputDecoration(
-          labelText: 'New Table Name',
+        decoration: const InputDecoration(
+          labelText: LanguageItems.newTableName,
         ),
       ),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.height / 4,
               child: ElevatedButton(
                   onPressed: () {
@@ -42,16 +43,16 @@ class RenameTableDialogState extends State<RenameTableDialog> {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: Text(LanguageItems.rename)),
+                  child: const Text(LanguageItems.rename)),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.height / 4,
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text(LanguageItems.cancel),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Constants.errorColor)),
+                child: const Text(LanguageItems.cancel),
               ),
             ),
           ],

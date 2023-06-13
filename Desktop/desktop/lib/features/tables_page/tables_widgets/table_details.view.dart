@@ -1,8 +1,8 @@
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/models/member.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
-import 'package:desktop/widgets/tables_widgets/member_deliveries_list_view.dart';
+import 'package:desktop/features/tables_page/tables_widgets/member_deliveries_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class TableDetailsView extends StatelessWidget {
     final tableName = selectedTable ?? '';
 
     if (selectedTable == null) {
-      return Text(LanguageItems.selectTable);
+      return const Text(LanguageItems.selectTable);
     }
 
     final members = viewModel.getMembersAtTable(tableName);
@@ -30,7 +30,7 @@ class TableDetailsView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.height / 4,
                 child: ElevatedButton.icon(
                     onPressed: () {
@@ -40,15 +40,15 @@ class TableDetailsView extends StatelessWidget {
                           (newName) =>
                               viewModel.renameTable(tableName, newName));
                     },
-                    icon: Icon(Icons.edit),
-                    label: Text(LanguageItems.rename)),
+                    icon: const Icon(Icons.edit),
+                    label: const Text(LanguageItems.rename)),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.height / 4,
                 child: ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Icon(Icons.delete),
-                  label: Text(LanguageItems.delete),
+                  icon: const Icon(Icons.delete),
+                  label: const Text(LanguageItems.delete),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Constants.errorColor)),
@@ -84,12 +84,12 @@ class TableDetailsView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Constants.kbigSizedBoxSize,
-          Text(LanguageItems.noMember),
+          const Text(LanguageItems.noMember),
           Constants.kbigSizedBoxSize,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.height / 4,
                 child: ElevatedButton.icon(
                     onPressed: () {
@@ -99,15 +99,15 @@ class TableDetailsView extends StatelessWidget {
                           (newName) =>
                               viewModel.renameTable(tableName, newName));
                     },
-                    icon: Icon(Icons.edit),
-                    label: Text(LanguageItems.rename)),
+                    icon: const Icon(Icons.edit),
+                    label: const Text(LanguageItems.rename)),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.height / 4,
                 child: ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Icon(Icons.delete),
-                  label: Text(LanguageItems.delete),
+                  icon: const Icon(Icons.delete),
+                  label: const Text(LanguageItems.delete),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Constants.errorColor)),

@@ -15,7 +15,7 @@ class AppTheme {
       ),
     ),
     textSelectionTheme:
-        TextSelectionThemeData(cursorColor: Constants.buttonTextColor),
+        const TextSelectionThemeData(cursorColor: Constants.buttonTextColor),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(const Size.fromHeight(60)),

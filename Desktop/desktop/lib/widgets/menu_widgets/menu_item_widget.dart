@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:desktop/models/menu_item.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +6,7 @@ class MenuItemWidget extends StatelessWidget {
   final VoidCallback onItemTap;
 
   const MenuItemWidget({
+    super.key,
     required this.item,
     required this.onItemTap,
   });
@@ -28,17 +27,17 @@ class MenuItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       item.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(item.description),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       '\$${item.price.toStringAsFixed(2)}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -46,8 +45,8 @@ class MenuItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: 16.0),
-              Container(
+              const SizedBox(width: 16.0),
+              SizedBox(
                 width: 80,
                 height: 80,
                 child: item.imagePath != null
@@ -55,7 +54,7 @@ class MenuItemWidget extends StatelessWidget {
                         item.imagePath!,
                         fit: BoxFit.cover,
                       )
-                    : Icon(Icons.restaurant_menu),
+                    : const Icon(Icons.restaurant_menu),
               ),
             ],
           ),

@@ -10,7 +10,7 @@ class SignInService {
     String? email,
     String? password,
   ) async {
-    var url = Uri.parse("http://13.51.72.244/auth/login");
+    var url = Uri.parse("https://hesapp.link/auth/login");
     final http.Response response = await http
         .post(
           url,
@@ -23,11 +23,10 @@ class SignInService {
           }),
         )
         .timeout(const Duration(seconds: 60));
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      Me.setToken = responseData["access_token"];
-      Me.setMail = email!;
+      Me.setToken(responseData["access_token"]);
+      Me.setMail(email!);
       return "login successful";
     } else {
       final responseData = jsonDecode(response.body);

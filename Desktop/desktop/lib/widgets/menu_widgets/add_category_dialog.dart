@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 class AddCategoryDialog extends StatefulWidget {
   final String title;
 
-  const AddCategoryDialog({required this.title});
+  const AddCategoryDialog({super.key, required this.title});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddCategoryDialogState createState() => _AddCategoryDialogState();
 }
 
@@ -33,12 +34,12 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
       title: Text(widget.title),
       content: TextField(
         controller: _categoryController,
-        decoration: InputDecoration(labelText: 'Category'),
+        decoration: const InputDecoration(labelText: 'Category'),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
@@ -50,7 +51,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
               Navigator.pop(context);
             }
           },
-          child: Text('Save'),
+          child: const Text('Save'),
         ),
       ],
     );

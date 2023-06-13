@@ -28,7 +28,7 @@ class CustomTabCount extends StatelessWidget {
               right: 0,
               child: Container(
                 padding: Constants.contentPadding,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Constants.buttonTextColor,
                   shape: BoxShape.circle,
                 ),

@@ -8,6 +8,7 @@ class MenuCategoryWidget extends StatelessWidget {
   final Function(MenuItem) onItemTap;
 
   const MenuCategoryWidget({
+    super.key,
     required this.category,
     required this.onItemTap,
   });

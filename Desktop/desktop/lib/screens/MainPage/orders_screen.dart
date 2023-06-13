@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:desktop/screens/MainPage/order_details_screen.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
@@ -8,6 +6,8 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class OrdersScreen extends StatelessWidget {
+  const OrdersScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final ordersViewModel = Provider.of<OrdersViewModel>(context);
@@ -18,7 +18,7 @@ class OrdersScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Orders'),
+        title: const Text('Orders'),
       ),
       body: ListView.builder(
         itemCount: ordersWithDeliveries.length,

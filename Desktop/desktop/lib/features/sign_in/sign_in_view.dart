@@ -95,7 +95,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             focusNode: _usernameFocusNode,
             onChanged: (value) {
               setState(() {
-                Me.setMail = value;
+                Me.setMail(value);
               });
             },
           ),
@@ -110,7 +110,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             focusNode: _passwordFocusNode,
             onChanged: (value) {
               setState(() {
-                Me.setPassword = value;
+                Me.setPassword(value);
               });
             },
           ),

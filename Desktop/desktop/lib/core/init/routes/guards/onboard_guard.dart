@@ -10,7 +10,7 @@ class OnBoardGuard extends AutoRouteGuard {
     if (isFirst) {
       resolver.next();
     } else {
-      router.replaceNamed("/login");
+      router.replaceNamed("/auth");
     }
   }
 }

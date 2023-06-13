@@ -1,3 +1,4 @@
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:flutter/material.dart';
 
 class RemoveTableDialog extends StatelessWidget {
@@ -5,6 +6,7 @@ class RemoveTableDialog extends StatelessWidget {
   final Function() onRemove;
 
   const RemoveTableDialog({
+    super.key,
     required this.tableName,
     required this.onRemove,
   });
@@ -12,8 +14,8 @@ class RemoveTableDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Remove Table'),
-      content: Text('Are you sure you want to remove the table "$tableName"?'),
+      title: const Text(LanguageItems.removeTable),
+      content: Text(LanguageItems.sureRemoveTable + tableName),
       actions: [
         ElevatedButton(
           onPressed: () {
@@ -23,11 +25,11 @@ class RemoveTableDialog extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
           ),
-          child: const Text('Remove'),
+          child: const Text(LanguageItems.remove),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: const Text(LanguageItems.cancel),
         ),
       ],
     );

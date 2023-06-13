@@ -3,12 +3,12 @@ import 'package:desktop/core/init/routes/guards/login_guard.dart';
 import 'package:desktop/core/init/routes/guards/onboard_guard.dart';
 import 'package:desktop/features/main_page/main_page.dart';
 import 'package:desktop/features/onboard_page/onboard_page_view.dart';
+import 'package:desktop/features/settings_page/settings_page_view.dart';
 import 'package:desktop/features/sign_in/sign_in_view.dart';
+import 'package:desktop/features/tables_page/tables_page_view.dart';
 import 'package:desktop/screens/MainPage/menu_screen.dart';
 import 'package:desktop/screens/MainPage/orders_screen.dart';
 import 'package:desktop/screens/MainPage/payment_screen.dart';
-import 'package:desktop/screens/MainPage/settings_screen.dart';
-import 'package:desktop/screens/MainPage/tables_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -29,7 +29,7 @@ class AppRouter extends _$AppRouter {
         //Auth
         AutoRoute(
           page: LoginPageViewRoute.page,
-          path: "/login",
+          path: "/auth",
           guards: [LoginGuard()],
         ),
 

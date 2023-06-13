@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
-import 'package:desktop/widgets/tables_widgets/add_table_dialog.dart';
-import 'package:desktop/widgets/tables_widgets/table_details.view.dart';
-import 'package:desktop/widgets/tables_widgets/table_grid_view.dart';
+import 'package:desktop/features/tables_page/tables_widgets/add_table_dialog.dart';
+import 'package:desktop/features/tables_page/tables_widgets/table_details.view.dart';
+import 'package:desktop/features/tables_page/tables_widgets/table_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'tables_page_view_model.dart';
 
 @RoutePage()
 class TablesScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class TablesScreen extends StatelessWidget {
         builder: (context, tableViewModel, _) {
           return Row(
             children: [
-              Expanded(
+              const Expanded(
                 flex: 2,
                 child: TableGridView(),
               ),
@@ -29,21 +30,32 @@ class TablesScreen extends StatelessWidget {
                 child: Container(
                     height: screenSize.height,
                     color: Constants.tableDetailsColor,
-                    child: TableDetailsView()),
+                    child: const TableDetailsView()),
               ),
             ],
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (_) => AddTableDialog(),
-          );
-        },
-      ),
+      floatingActionButton: const TableFloatingActionButton(),
+    );
+  }
+}
+
+class TableFloatingActionButton extends StatelessWidget {
+  const TableFloatingActionButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(Icons.add),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (_) => AddTableDialog(),
+        );
+      },
     );
   }
 }

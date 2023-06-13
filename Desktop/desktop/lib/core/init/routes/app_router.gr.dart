@@ -21,6 +21,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPageView(),
       );
     },
+    OnboardPageViewRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OnboardPageView(),
+      );
+    },
+    TablesScreenRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TablesScreen(),
+      );
+    },
     MainPageViewRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -36,7 +48,7 @@ abstract class _$AppRouter extends RootStackRouter {
     OrdersScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: OrdersScreen(),
+        child: const OrdersScreen(),
       );
     },
     MenuScreenRoute.name: (routeData) {
@@ -45,22 +57,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: MenuScreen(),
       );
     },
-    TablesScreenRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const TablesScreen(),
-      );
-    },
     PaymentScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PaymentScreen(),
-      );
-    },
-    OnboardPageViewRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const OnboardPageView(),
+        child: const PaymentScreen(),
       );
     },
   };
@@ -76,6 +76,34 @@ class LoginPageViewRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginPageViewRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardPageView]
+class OnboardPageViewRoute extends PageRouteInfo<void> {
+  const OnboardPageViewRoute({List<PageRouteInfo>? children})
+      : super(
+          OnboardPageViewRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardPageViewRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TablesScreen]
+class TablesScreenRoute extends PageRouteInfo<void> {
+  const TablesScreenRoute({List<PageRouteInfo>? children})
+      : super(
+          TablesScreenRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TablesScreenRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -137,20 +165,6 @@ class MenuScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [TablesScreen]
-class TablesScreenRoute extends PageRouteInfo<void> {
-  const TablesScreenRoute({List<PageRouteInfo>? children})
-      : super(
-          TablesScreenRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TablesScreenRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [PaymentScreen]
 class PaymentScreenRoute extends PageRouteInfo<void> {
   const PaymentScreenRoute({List<PageRouteInfo>? children})
@@ -160,20 +174,6 @@ class PaymentScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PaymentScreenRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [OnboardPageView]
-class OnboardPageViewRoute extends PageRouteInfo<void> {
-  const OnboardPageViewRoute({List<PageRouteInfo>? children})
-      : super(
-          OnboardPageViewRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'WelcomePageViewRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

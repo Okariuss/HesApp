@@ -32,4 +32,24 @@ class LanguageItems {
   static const tableName = "Table Name";
   static const cancel = "Cancel";
   static const add = "Add";
+  static const remove = "Remove";
+  static const noAcceptedDeliveries = "No Accepted Deliveries";
+  static const acceptedDeliveries = "'s Accepted Deliveries: ";
+  static const totalPrice = "Total Price: ";
+  static const removeTable = "Remove Table";
+  static const sureRemoveTable = "Are you sure you want to remove the table ";
+  static const renameTable = "Rename Table";
+  static const newTableName = "New Table Name";
+
+  // Settings
+  static const settings = "Settings";
+  static const basicInfo = "Basic Information";
+  static const restaurantName = "Restaurant Name";
+  static const restaurantContact = "Restaurant Contact";
+  static const restaurantLocation = "Restaurant Location";
+  static const restaurantDescription = "Restaurant Description";
+  static const userInfo = "User Information";
+  static const username = "Username";
+  static const phone = "Phone";
+  static const userMail = "User E-mail";
 }

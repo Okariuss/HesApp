@@ -1,4 +1,5 @@
 import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/models/member.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +17,10 @@ class MemberDeliveriesListView extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${member.name}\'s Accepted Deliveries:'),
+              Text(member.name + LanguageItems.acceptedDeliveries),
               Constants.ksmallSizedBoxSize,
               if (member.acceptedOrders.isEmpty)
-                const Text('- No accepted deliveries')
+                const Text(LanguageItems.noAcceptedDeliveries)
               else
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,7 @@ class MemberDeliveriesListView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text('Total Price: '),
+                  const Text(LanguageItems.totalPrice),
                   Text('${member.totalPrice} TL'),
                 ],
               ),

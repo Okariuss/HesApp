@@ -1,7 +1,7 @@
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/models/member.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -8,6 +8,7 @@ class CategoryList extends StatelessWidget {
   final Function(MenuCategory, MenuItem, int) onItemTap;
 
   const CategoryList({
+    super.key,
     required this.menuCategories,
     required this.onItemTap,
   });
@@ -25,7 +26,7 @@ class CategoryList extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 category.title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
@@ -33,7 +34,7 @@ class CategoryList extends StatelessWidget {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               itemCount: category.items.length,
               itemBuilder: (context, itemIndex) {
                 final item = category.items[itemIndex];
@@ -47,7 +48,7 @@ class CategoryList extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) {
-        return Divider(
+        return const Divider(
           thickness: 1.0,
           height: 1.0,
         );

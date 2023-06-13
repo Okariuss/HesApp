@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:desktop/models/member.dart';
-import 'package:desktop/models/table.dart';
-import 'package:desktop/viewModel/tables_view_model.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
 class PaymentScreen extends StatelessWidget {
+  const PaymentScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     if (tableData.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Payment'),
+          title: const Text('Payment'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('No payment details available.'),
         ),
       );
@@ -36,10 +36,10 @@ class PaymentScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: const Text('Payment'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,16 +54,16 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Table Number: ${table.table}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       if (table.members != null)
                         ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: table.members!.length,
                           itemBuilder: (context, memberIndex) {
                             final member = table.members![memberIndex];
@@ -75,7 +75,7 @@ class PaymentScreen extends StatelessWidget {
                                 ListTile(
                                   title: Text(
                                     'Member: ${member.name}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -94,14 +94,14 @@ class PaymentScreen extends StatelessWidget {
                                               onPressed: () {
                                                 member.removeOrder(order);
                                               },
-                                              child: Text('Pay'),
+                                              child: const Text('Pay'),
                                             ),
                                           ),
                                         )
                                         .toList(),
                                   ),
                                 ),
-                                SizedBox(height: 16.0),
+                                const SizedBox(height: 16.0),
                               ],
                             );
                           },
@@ -113,18 +113,18 @@ class PaymentScreen extends StatelessWidget {
             ),
             Text(
               'Total Price: $total',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Perform the payment operation here
                 // You can display a confirmation dialog or navigate to a success screen
               },
-              child: Text('Make Payment'),
+              child: const Text('Make Payment'),
             ),
           ],
         ),

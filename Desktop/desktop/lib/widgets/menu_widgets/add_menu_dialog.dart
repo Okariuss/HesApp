@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddMenuDialog extends StatelessWidget {
+  const AddMenuDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -44,7 +46,7 @@ class AddMenuDialog extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AddCategoryDialog(
+        return const AddCategoryDialog(
           title: 'Add Category',
         );
       },

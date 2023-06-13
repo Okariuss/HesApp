@@ -1,9 +1,9 @@
 import 'package:desktop/models/delivery.dart';
 import 'package:desktop/models/member.dart';
 import 'package:desktop/models/table.dart';
-import 'package:desktop/widgets/tables_widgets/move_members_to_table_dialog.dart';
-import 'package:desktop/widgets/tables_widgets/remove_table_dialog.dart';
-import 'package:desktop/widgets/tables_widgets/rename_table_dialog.dart';
+import 'package:desktop/features/tables_page/tables_widgets/move_members_to_table_dialog.dart';
+import 'package:desktop/features/tables_page/tables_widgets/remove_table_dialog.dart';
+import 'package:desktop/features/tables_page/tables_widgets/rename_table_dialog.dart';
 import 'package:flutter/material.dart';
 
 List<Tables> tableData = [

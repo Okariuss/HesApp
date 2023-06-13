@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
+import 'package:desktop/features/settings_page/settings_page_view_model.dart';
 
 import 'package:desktop/viewModel/home_page_view_model.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
@@ -22,11 +23,21 @@ class _MainPageViewState extends State<MainPageView> {
   ValueNotifier<int> orderCount = ValueNotifier<int>(0);
 
   late OrdersViewModel _ordersViewModel;
+  late SettingsViewModel _settingsViewModel;
+  String title = "";
 
   @override
   void initState() {
     super.initState();
     _ordersViewModel = Provider.of<OrdersViewModel>(context, listen: false);
+    _settingsViewModel = Provider.of<SettingsViewModel>(context, listen: false);
+    _settingsViewModel.fetchStaffDetails().then((_) => {
+          setState(
+            () {
+              title = _settingsViewModel.staff?.restaurantName ?? "";
+            },
+          )
+        });
     _ordersViewModel.addListener(_updateOrderCount);
 
     _updateOrderCount();
@@ -60,7 +71,7 @@ class _MainPageViewState extends State<MainPageView> {
         builder: (context, child, tabController) {
           return SafeArea(
             child: Scaffold(
-              appBar: DefaultAppBar(tabController, context),
+              appBar: DefaultAppBar(tabController, context, title),
               body: child,
               extendBody: true,
             ),
@@ -70,9 +81,13 @@ class _MainPageViewState extends State<MainPageView> {
     );
   }
 
-  AppBar DefaultAppBar(TabController tabController, BuildContext context) {
+  AppBar DefaultAppBar(
+      TabController tabController, BuildContext context, String title) {
     return AppBar(
-      title: const Text("Restaurant Name"),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.headlineLarge,
+      ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Align(
