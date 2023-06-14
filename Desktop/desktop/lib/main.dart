@@ -17,6 +17,8 @@ void main() {
 class MainApp extends StatelessWidget {
   final _appRouter = AppRouter();
 
+  MainApp({super.key});
+
   Future<void> _initApp(BuildContext context) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Me.init();
@@ -56,7 +58,7 @@ class MainApp extends StatelessWidget {
 class MainWidget extends StatelessWidget {
   final AppRouter appRouter;
 
-  MainWidget({Key? key, required this.appRouter}) : super(key: key);
+  const MainWidget({Key? key, required this.appRouter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
