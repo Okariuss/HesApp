@@ -12,7 +12,7 @@ class TablesScreenViewModel extends ChangeNotifier {
   }
 
   void sortItems() {
-    tables.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
+    tables.sort((a, b) => (a.id).compareTo(b.id));
   }
 
   Future<void> fetchTables(int id) async {
@@ -22,7 +22,6 @@ class TablesScreenViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       throw Exception('Error fetching menu categories: $e');
-      // Handle the error gracefully, e.g., show an error message to the user
     }
   }
 
@@ -34,7 +33,6 @@ class TablesScreenViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       throw Exception('Error creating menu category: $e');
-      // Handle the error gracefully, e.g., show an error message to the user
     }
   }
 
@@ -47,7 +45,6 @@ class TablesScreenViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       throw Exception('Error editing table: $e');
-      // Handle the error gracefully, e.g., show an error message to the user
     }
   }
 
@@ -59,7 +56,6 @@ class TablesScreenViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       throw Exception('Error deleting menu item: $e');
-      // Handle the error gracefully, e.g., show an error message to the user
     }
   }
 }

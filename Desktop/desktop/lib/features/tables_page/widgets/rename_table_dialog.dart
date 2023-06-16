@@ -22,9 +22,8 @@ class RenameTableDialogState extends State<RenameTableDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _nameController = TextEditingController(text: widget.table.name ?? '');
+    _nameController = TextEditingController(text: widget.table.name);
   }
 
   @override
