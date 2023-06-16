@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 class OrdersViewModel extends ChangeNotifier {
   List<Member> get orders {
     List<Member> allMembers = [];
-    for (var table in tableData) {
-      if (table.members != null) {
-        allMembers.addAll(table.members!);
-      }
-    }
+    // for (var table in tableData) {
+    //   if (table.members != null) {
+    //     allMembers.addAll(table.members!);
+    //   }
+    // }
     return allMembers;
   }
 
@@ -32,19 +32,19 @@ class OrdersViewModel extends ChangeNotifier {
   }
 
   void moveOrderToTable(Member member, String targetTable) {
-    final sourceTable =
-        tableData.firstWhere((table) => table.table == member.table);
-    final targetTableData =
-        tableData.firstWhere((table) => table.table == targetTable);
-    if (targetTableData != null) {
-      targetTableData.members ??= [];
-      targetTableData.members!.add(member);
-    } else {
-      tableData.add(Tables(table: targetTable, members: <Member>[member]));
-    }
+    // final sourceTable =
+    //     tableData.firstWhere((table) => table.table == member.table);
+    // final targetTableData =
+    //     tableData.firstWhere((table) => table.table == targetTable);
+    // if (targetTableData != null) {
+    //   targetTableData.members ??= [];
+    //   targetTableData.members!.add(member);
+    // } else {
+    //   tableData.add(Tables(table: targetTable, members: <Member>[member]));
+    // }
 
-    sourceTable.members?.remove(member);
-    member.table = targetTable;
+    // sourceTable.members?.remove(member);
+    // member.table = targetTable;
     notifyListeners();
   }
 

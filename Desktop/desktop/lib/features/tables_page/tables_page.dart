@@ -1,8 +1,19 @@
-import 'package:desktop/models/member.dart';
+class TableModel {
+  final int id;
+  final int restaurantId;
+  final String name;
 
-class Tables {
-  String table;
-  List<Member>? members;
+  TableModel({
+    required this.id,
+    required this.restaurantId,
+    required this.name,
+  });
 
-  Tables({required this.table, this.members = const []});
+  factory TableModel.fromJson(Map<String, dynamic> json) {
+    return TableModel(
+      id: json['id'],
+      restaurantId: json['restaurant_id'],
+      name: json['name'],
+    );
+  }
 }

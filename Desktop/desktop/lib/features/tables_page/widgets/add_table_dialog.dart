@@ -44,7 +44,7 @@ class AddTableDialog extends StatelessWidget {
                     final viewModel = Provider.of<TablesScreenViewModel>(
                         context,
                         listen: false);
-                    viewModel.addTable(tableName);
+                    viewModel.createTable(tableName);
                     Navigator.pop(context);
                   }
                 },

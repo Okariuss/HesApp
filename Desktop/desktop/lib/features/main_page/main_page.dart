@@ -4,6 +4,7 @@ import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/features/menu_page/viewModels/menu_view_model.dart';
 import 'package:desktop/features/settings_page/settings_page_view_model.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/utils/util.dart';
 
 import 'package:desktop/viewModel/home_page_view_model.dart';
@@ -27,6 +28,7 @@ class _MainPageViewState extends State<MainPageView> {
   late OrdersViewModel _ordersViewModel;
   late SettingsViewModel _settingsViewModel;
   late MenuPageViewModel _menuPageViewModel;
+  late TablesScreenViewModel _tablePageViewModel;
   String title = "";
 
   @override
@@ -43,6 +45,9 @@ class _MainPageViewState extends State<MainPageView> {
         });
     _menuPageViewModel = Provider.of<MenuPageViewModel>(context, listen: false);
     _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
+    _tablePageViewModel =
+        Provider.of<TablesScreenViewModel>(context, listen: false);
+    _tablePageViewModel.fetchTables(Me.restaurantId);
     _ordersViewModel.addListener(_updateOrderCount);
 
     _updateOrderCount();

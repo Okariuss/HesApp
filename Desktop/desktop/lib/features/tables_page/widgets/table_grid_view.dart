@@ -11,35 +11,35 @@ class TableGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TablesScreenViewModel>(context);
     return GridView.builder(
-      itemCount: tableData.length,
+      itemCount: viewModel.tables.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 8,
         childAspectRatio: 1.0,
       ),
       itemBuilder: (context, index) {
-        final table = tableData[index];
-        final tableColor = viewModel.getTableColor(table.table);
-        final memberCount = viewModel.getMemberCount(table.table);
+        final table = viewModel.tables[index];
+        // final tableColor = viewModel.getTableColor(table.table);
+        // final memberCount = viewModel.getMemberCount(table.table);
 
         return GestureDetector(
           onTap: () {
-            viewModel.setSelectedTable(table.table);
+            viewModel.setSelectedTable(table);
           },
           child: Container(
             margin: Constants.smallPadding,
             decoration: BoxDecoration(
-              color: tableColor,
+              // color: tableColor,
+              color: Colors.red,
               borderRadius: Constants.smallBorderRadius,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(table.table,
-                    style: Theme.of(context).textTheme.bodyMedium),
-                Constants.ksmallSizedBoxSize,
-                Text(
-                  '${LanguageItems.members}: $memberCount',
-                ),
+                Text(table.name, style: Theme.of(context).textTheme.bodyMedium),
+                // Constants.ksmallSizedBoxSize,
+                // Text(
+                //   '${LanguageItems.members}: $memberCount',
+                // ),
               ],
             ),
           ),

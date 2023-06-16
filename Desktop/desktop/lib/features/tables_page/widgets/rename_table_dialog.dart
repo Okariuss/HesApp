@@ -1,15 +1,16 @@
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
+import 'package:desktop/features/tables_page/tables_page.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RenameTableDialog extends StatefulWidget {
-  final String oldName;
-  final Function(String) onRename;
+  final TableModel table;
 
   const RenameTableDialog({
     super.key,
-    required this.oldName,
-    required this.onRename,
+    required this.table,
   });
 
   @override
@@ -17,14 +18,21 @@ class RenameTableDialog extends StatefulWidget {
 }
 
 class RenameTableDialogState extends State<RenameTableDialog> {
-  final TextEditingController _newNameController = TextEditingController();
+  late TextEditingController _nameController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController = TextEditingController(text: widget.table.name ?? '');
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LanguageItems.renameTable),
       content: TextField(
-        controller: _newNameController,
+        controller: _nameController,
         decoration: const InputDecoration(
           labelText: LanguageItems.newTableName,
         ),
@@ -37,9 +45,10 @@ class RenameTableDialogState extends State<RenameTableDialog> {
               width: MediaQuery.of(context).size.height / 4,
               child: ElevatedButton(
                   onPressed: () {
-                    final newName = _newNameController.text;
+                    final newName = _nameController.text;
                     if (newName.isNotEmpty) {
-                      widget.onRename(newName);
+                      Provider.of<TablesScreenViewModel>(context, listen: false)
+                          .updateTable(widget.table.id, newName);
                       Navigator.of(context).pop();
                     }
                   },
@@ -48,7 +57,9 @@ class RenameTableDialogState extends State<RenameTableDialog> {
             SizedBox(
               width: MediaQuery.of(context).size.height / 4,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Constants.errorColor)),
