@@ -1,10 +1,12 @@
-import 'package:desktop/models/menu_item.dart';
-import 'package:desktop/widgets/menu_widgets/menu_item_widget.dart';
+import 'dart:developer';
+
+import 'package:desktop/features/menu_page/models/menu_page_items_model.dart';
+import 'package:desktop/features/menu_page/widgets/menu_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class MenuItemList extends StatelessWidget {
-  final List<MenuItem> items;
-  final Function(MenuItem) onItemTap;
+  final List<MenuItemsModel> items;
+  final Function(MenuItemsModel) onItemTap;
 
   const MenuItemList({
     super.key,

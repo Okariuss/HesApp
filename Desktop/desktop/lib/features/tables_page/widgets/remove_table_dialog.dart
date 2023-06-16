@@ -15,7 +15,7 @@ class RemoveTableDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LanguageItems.removeTable),
-      content: Text(LanguageItems.sureRemoveTable + tableName),
+      content: Text(LanguageItems.sureRemove + tableName),
       actions: [
         ElevatedButton(
           onPressed: () {

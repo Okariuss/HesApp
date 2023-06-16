@@ -14,7 +14,7 @@ Widget buildUserInfoSection(
         children: [
           Text(
             LanguageItems.userInfo,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           Constants.ksmallSizedBoxSize,
           buildTextField(

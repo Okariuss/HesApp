@@ -1,11 +1,13 @@
-import 'package:desktop/models/menu_category.dart';
+import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/features/menu_page/models/menu_page_categories_model.dart';
+import 'package:desktop/features/menu_page/models/menu_page_items_model.dart';
+import 'package:desktop/features/menu_page/widgets/menu_item_widget.dart';
 import 'package:desktop/models/menu_item.dart';
-import 'package:desktop/widgets/menu_widgets/menu_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class CategoryList extends StatelessWidget {
-  final List<MenuCategory> menuCategories;
-  final Function(MenuCategory, MenuItem, int) onItemTap;
+  final List<MenuCategoriesModel> menuCategories;
+  final Function(MenuCategoriesModel, MenuItemsModel, int) onItemTap;
 
   const CategoryList({
     super.key,
@@ -23,23 +25,23 @@ class CategoryList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: Constants.defaultPadding,
               child: Text(
-                category.title,
+                category.name ?? "",
                 style: const TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
+                  fontSize: Constants.headerSize,
+                  fontWeight: Constants.bold,
                 ),
               ),
             ),
             ListView.builder(
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
-              itemCount: category.items.length,
+              itemCount: category.items?.length,
               itemBuilder: (context, itemIndex) {
-                final item = category.items[itemIndex];
+                final item = category.items?[itemIndex];
                 return MenuItemWidget(
-                  item: item,
+                  item: item!,
                   onItemTap: () => onItemTap(category, item, itemIndex),
                 );
               },

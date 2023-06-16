@@ -12,6 +12,7 @@ class SettingsViewModel extends ChangeNotifier {
   Future<void> fetchStaffDetails() async {
     try {
       staff = await SettingsService.getStaffDetails();
+      Me.setRestaurantId(staff?.restaurantId ?? 0);
       notifyListeners();
     } catch (error) {
       // Handle error

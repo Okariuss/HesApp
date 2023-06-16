@@ -2,7 +2,7 @@ import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/models/member.dart';
-import 'package:desktop/features/tables_page/tables_widgets/member_deliveries_list_view.dart';
+import 'package:desktop/features/tables_page/widgets/member_deliveries_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +48,7 @@ class TableDetailsView extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.delete),
-                  label: const Text(LanguageItems.delete),
+                  label: const Text(LanguageItems.remove),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Constants.errorColor)),
@@ -107,7 +107,7 @@ class TableDetailsView extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.delete),
-                  label: const Text(LanguageItems.delete),
+                  label: const Text(LanguageItems.remove),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Constants.errorColor)),

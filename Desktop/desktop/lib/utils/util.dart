@@ -12,6 +12,7 @@ class Me {
   static String get mail => _preferences.getString('mail') ?? '';
   static String get password => _preferences.getString('password') ?? '';
   static String get phone => _preferences.getString('phone') ?? '';
+  static int get restaurantId => _preferences.getInt('restaurantId') ?? 0;
   static String get restaurantName =>
       _preferences.getString('restaurantName') ?? '';
   static String get restaurantDescription =>
@@ -39,6 +40,10 @@ class Me {
 
   static Future<void> setPhone(String newPhone) async {
     await _preferences.setString('phone', newPhone);
+  }
+
+  static Future<void> setRestaurantId(int newRestaurantId) async {
+    await _preferences.setInt('restaurantId', newRestaurantId);
   }
 
   static Future<void> setRestaurantName(String newRestaurantName) async {

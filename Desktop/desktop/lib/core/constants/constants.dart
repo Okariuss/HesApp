@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   // Text Sizes
+  static const double headerSize = 50.0;
   static const double titleSize = 24.0;
   static const double subtitleSize = 18.0;
   static const double contentSize = 16.0;
@@ -40,6 +41,9 @@ class Constants {
   static const Color tableDetailsColor = Color.fromARGB(255, 174, 168, 168);
 
   // Sizedbox
+  static const SizedBox ktooSmallSizedBoxSize = SizedBox(
+    height: 8.0,
+  );
   static const SizedBox ksmallSizedBoxSize = SizedBox(
     height: 16.0,
   );
@@ -59,4 +63,10 @@ class Constants {
   static BorderRadius defaultBorderRadius = BorderRadius.circular(20);
   static BorderRadius bigBorderRadius = BorderRadius.circular(40);
   static BorderRadius smallBorderRadius = BorderRadius.circular(10);
+
+  // Icons
+  static Icon addIcon = const Icon(Icons.add);
+  static Icon editIcon = const Icon(Icons.edit);
+  static Icon categoryIcon = const Icon(Icons.category);
+  static Icon restaurantMenu = const Icon(Icons.restaurant_menu);
 }

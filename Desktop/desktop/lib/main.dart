@@ -1,14 +1,13 @@
 import 'package:desktop/core/init/cache/local_manager.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
 import 'package:desktop/core/theme/theme.dart';
+import 'package:desktop/features/menu_page/viewModels/menu_view_model.dart';
 import 'package:desktop/features/settings_page/settings_page_view_model.dart';
 import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/utils/util.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'viewModel/menu_view_model.dart';
 
 void main() {
   runApp(MainApp());
@@ -33,9 +32,9 @@ class MainApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (context) => MenuViewModel()),
               ChangeNotifierProvider(
                   create: (context) => TablesScreenViewModel()),
+              ChangeNotifierProvider(create: (context) => MenuPageViewModel()),
               ChangeNotifierProvider(create: (context) => SettingsViewModel()),
               ChangeNotifierProvider(create: (context) => OrdersViewModel()),
             ],

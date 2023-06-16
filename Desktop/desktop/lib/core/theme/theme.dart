@@ -25,8 +25,7 @@ class AppTheme {
               side: const BorderSide(color: Constants.primaryColor),
               borderRadius: Constants.bigBorderRadius),
         ),
-        foregroundColor:
-            MaterialStateProperty.all(Constants.primaryColor), // Added line
+        foregroundColor: MaterialStateProperty.all(Constants.primaryColor),
         textStyle: MaterialStateProperty.all(
           const TextStyle(
             fontWeight: Constants.bold,

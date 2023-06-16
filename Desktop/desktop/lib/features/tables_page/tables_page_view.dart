@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
-import 'package:desktop/features/tables_page/tables_widgets/add_table_dialog.dart';
-import 'package:desktop/features/tables_page/tables_widgets/table_details.view.dart';
-import 'package:desktop/features/tables_page/tables_widgets/table_grid_view.dart';
+import 'package:desktop/features/tables_page/widgets/add_table_dialog.dart';
+import 'package:desktop/features/tables_page/widgets/table_details.view.dart';
+import 'package:desktop/features/tables_page/widgets/table_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

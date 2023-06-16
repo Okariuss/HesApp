@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/core/init/routes/app_router.dart';
+import 'package:desktop/features/menu_page/viewModels/menu_view_model.dart';
 import 'package:desktop/features/settings_page/settings_page_view_model.dart';
+import 'package:desktop/utils/util.dart';
 
 import 'package:desktop/viewModel/home_page_view_model.dart';
 import 'package:desktop/viewModel/orders_view_model.dart';
@@ -24,6 +26,7 @@ class _MainPageViewState extends State<MainPageView> {
 
   late OrdersViewModel _ordersViewModel;
   late SettingsViewModel _settingsViewModel;
+  late MenuPageViewModel _menuPageViewModel;
   String title = "";
 
   @override
@@ -38,6 +41,8 @@ class _MainPageViewState extends State<MainPageView> {
             },
           )
         });
+    _menuPageViewModel = Provider.of<MenuPageViewModel>(context, listen: false);
+    _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
     _ordersViewModel.addListener(_updateOrderCount);
 
     _updateOrderCount();
@@ -86,7 +91,10 @@ class _MainPageViewState extends State<MainPageView> {
     return AppBar(
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headlineLarge,
+        style: Theme.of(context)
+            .textTheme
+            .headlineLarge
+            ?.copyWith(color: Constants.buttonTextColor),
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -99,25 +107,19 @@ class _MainPageViewState extends State<MainPageView> {
                 controller: tabController,
                 indicatorColor: Constants.buttonTextColor,
                 tabs: [
-                  CustomTab(text: LanguageItems.tables),
-                  CustomTab(text: LanguageItems.menu),
+                  const CustomTab(text: LanguageItems.tables),
+                  const CustomTab(text: LanguageItems.menu),
                   CustomTabCount(
                       orderCount: orderCount, text: LanguageItems.orders),
-                  CustomTab(text: LanguageItems.payments),
+                  const CustomTab(text: LanguageItems.payments),
                 ],
                 indicatorPadding: Constants.defaultPadding,
                 isScrollable: true,
               ),
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: const Icon(Icons.settings),
                 onPressed: () {
                   context.router.push(const SettingsScreenRoute());
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => SettingsScreen(),
-                  //   ),
-                  // );
                 },
               ),
             ],
