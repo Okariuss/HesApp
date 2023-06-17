@@ -41,6 +41,9 @@ class TablesScreenViewModel extends ChangeNotifier {
       final updatedTable = await TableService.updateTable(tableId, name);
       var tableIndex = tables.indexWhere((element) => element.id == tableId);
       tables[tableIndex] = updatedTable;
+      if (selectedTable != null && selectedTable!.id == tableId) {
+        selectedTable = updatedTable;
+      }
       sortItems();
       notifyListeners();
     } catch (e) {

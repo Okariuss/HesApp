@@ -9,9 +9,9 @@ class RenameTableDialog extends StatefulWidget {
   final TableModel table;
 
   const RenameTableDialog({
-    super.key,
+    Key? key,
     required this.table,
-  });
+  }) : super(key: key);
 
   @override
   RenameTableDialogState createState() => RenameTableDialogState();
@@ -52,11 +52,7 @@ class RenameTableDialogState extends State<RenameTableDialog> {
                 onPressed: () {
                   final newName = _nameController.text;
                   if (newName.isNotEmpty) {
-                    Provider.of<TablesScreenViewModel>(context, listen: false)
-                        .updateTable(widget.table.id, newName);
-                    _nameController.text =
-                        newName; // Update the controller's text
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(newName);
                   }
                 },
                 child: const Text(LanguageItems.rename),

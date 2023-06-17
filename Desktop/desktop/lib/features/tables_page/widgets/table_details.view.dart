@@ -11,13 +11,6 @@ class TableDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<TablesScreenViewModel>(context);
-    final selectedTable = viewModel.selectedTable;
-
-    if (selectedTable == null) {
-      return const Text(LanguageItems.selectTable);
-    }
-
     // final members = viewModel.getMembersAtTable(tableName);
     // if (members.isNotEmpty) {
     //   return Column(
@@ -79,49 +72,64 @@ class TableDetailsView extends StatelessWidget {
     //   );
     // }
     // else {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Constants.kbigSizedBoxSize,
-        const Text(LanguageItems.noMember),
-        Constants.kbigSizedBoxSize,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Consumer<TablesScreenViewModel>(
+      builder: (context, viewModel, _) {
+        final selectedTable = viewModel.selectedTable;
+
+        if (selectedTable == null) {
+          return const Text(LanguageItems.selectTable);
+        }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.height / 4,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => RenameTableDialog(table: selectedTable),
-                  );
-                },
-                icon: const Icon(Icons.edit),
-                label: const Text(LanguageItems.rename),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.height / 4,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => RemoveTableDialog(tableName: selectedTable),
-                  );
-                },
-                icon: const Icon(Icons.delete),
-                label: const Text(LanguageItems.remove),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Constants.errorColor),
+            Text(selectedTable.name),
+            Constants.kbigSizedBoxSize,
+            const Text(LanguageItems.noMember),
+            Constants.kbigSizedBoxSize,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.height / 4,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => RenameTableDialog(table: selectedTable),
+                      ).then((newName) {
+                        if (newName != null) {
+                          viewModel.updateTable(selectedTable.id, newName);
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.edit),
+                    label: const Text(LanguageItems.rename),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.height / 4,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) =>
+                            RemoveTableDialog(tableName: selectedTable),
+                      );
+                    },
+                    icon: const Icon(Icons.delete),
+                    label: const Text(LanguageItems.remove),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Constants.errorColor),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     ); // Return an empty SizedBox if there are no members
     // }
   }
