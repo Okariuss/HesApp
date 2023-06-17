@@ -58,6 +58,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   Provider.of<MenuPageViewModel>(context, listen: false)
                       .createMenuCategory(newCategory.name);
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 }
               },
               child: const Text(

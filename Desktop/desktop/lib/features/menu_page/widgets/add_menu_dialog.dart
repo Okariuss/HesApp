@@ -11,6 +11,20 @@ class AddMenuDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Provider.of<MenuPageViewModel>(context, listen: false)
+        .menuCategories
+        .isEmpty) {
+      return SimpleDialog(
+        title: const Text(LanguageItems.add),
+        children: [
+          ListTile(
+            leading: Constants.categoryIcon,
+            title: const Text(LanguageItems.addCategory),
+            onTap: () => _showAddCategoryDialog(context),
+          ),
+        ],
+      );
+    }
     return SimpleDialog(
       title: const Text(LanguageItems.add),
       children: [

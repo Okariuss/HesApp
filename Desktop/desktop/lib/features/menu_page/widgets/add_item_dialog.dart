@@ -172,7 +172,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           );
           Provider.of<MenuPageViewModel>(context, listen: false).createMenuItem(
               categoryId: selectedCategory?.id, menuItemsModel: newItem);
-
+          Navigator.pop(context);
           Navigator.pop(context);
         }
       },
