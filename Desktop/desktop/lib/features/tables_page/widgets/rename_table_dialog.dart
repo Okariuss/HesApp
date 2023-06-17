@@ -27,6 +27,12 @@ class RenameTableDialogState extends State<RenameTableDialog> {
   }
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LanguageItems.renameTable),
@@ -43,15 +49,18 @@ class RenameTableDialogState extends State<RenameTableDialog> {
             SizedBox(
               width: MediaQuery.of(context).size.height / 4,
               child: ElevatedButton(
-                  onPressed: () {
-                    final newName = _nameController.text;
-                    if (newName.isNotEmpty) {
-                      Provider.of<TablesScreenViewModel>(context, listen: false)
-                          .updateTable(widget.table.id, newName);
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Text(LanguageItems.rename)),
+                onPressed: () {
+                  final newName = _nameController.text;
+                  if (newName.isNotEmpty) {
+                    Provider.of<TablesScreenViewModel>(context, listen: false)
+                        .updateTable(widget.table.id, newName);
+                    _nameController.text =
+                        newName; // Update the controller's text
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: const Text(LanguageItems.rename),
+              ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.height / 4,
@@ -60,8 +69,9 @@ class RenameTableDialogState extends State<RenameTableDialog> {
                   Navigator.of(context).pop();
                 },
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Constants.errorColor)),
+                  backgroundColor:
+                      MaterialStateProperty.all(Constants.errorColor),
+                ),
                 child: const Text(LanguageItems.cancel),
               ),
             ),

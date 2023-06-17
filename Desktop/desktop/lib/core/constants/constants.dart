@@ -69,4 +69,5 @@ class Constants {
   static Icon editIcon = const Icon(Icons.edit);
   static Icon categoryIcon = const Icon(Icons.category);
   static Icon restaurantMenu = const Icon(Icons.restaurant_menu);
+  static Icon saveIcon = const Icon(Icons.save);
 }

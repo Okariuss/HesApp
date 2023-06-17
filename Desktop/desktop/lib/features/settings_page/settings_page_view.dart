@@ -40,10 +40,8 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.save),
+        child: Constants.saveIcon,
         onPressed: () {
-          final viewModel =
-              Provider.of<SettingsViewModel>(context, listen: false);
           viewModel.saveSettings();
         },
       ),

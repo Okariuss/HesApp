@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 Widget buildTextField(BuildContext context, String labelText, String text,
-    Function(String) onChanged, double maxWidth) {
+    double maxWidth, Function(String) onChanged) {
   return SizedBox(
-    width: maxWidth < 600 ? double.infinity : maxWidth * 0.5,
+    width: maxWidth,
     child: TextFormField(
       decoration: InputDecoration(
         labelText: labelText,

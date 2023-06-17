@@ -29,26 +29,22 @@ class _MainPageViewState extends State<MainPageView> {
   late SettingsViewModel _settingsViewModel;
   late MenuPageViewModel _menuPageViewModel;
   late TablesScreenViewModel _tablePageViewModel;
-  String title = "";
 
   @override
   void initState() {
     super.initState();
     _ordersViewModel = Provider.of<OrdersViewModel>(context, listen: false);
+    _ordersViewModel.addListener(_updateOrderCount);
+
     _settingsViewModel = Provider.of<SettingsViewModel>(context, listen: false);
-    _settingsViewModel.fetchStaffDetails().then((_) => {
-          setState(
-            () {
-              title = _settingsViewModel.staff?.restaurantName ?? "";
-            },
-          )
-        });
+    _settingsViewModel.fetchStaffDetails();
+
     _menuPageViewModel = Provider.of<MenuPageViewModel>(context, listen: false);
     _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
+
     _tablePageViewModel =
         Provider.of<TablesScreenViewModel>(context, listen: false);
     _tablePageViewModel.fetchTables(Me.restaurantId);
-    _ordersViewModel.addListener(_updateOrderCount);
 
     _updateOrderCount();
   }
@@ -79,9 +75,36 @@ class _MainPageViewState extends State<MainPageView> {
           PaymentScreenRoute(),
         ],
         builder: (context, child, tabController) {
+          tabController.addListener(
+            () {
+              final activeIndex = tabController.index;
+              // Perform actions based on the active tab index
+              switch (activeIndex) {
+                case 0:
+                  // Do something when the TablesScreenRoute tab is active
+                  _tablePageViewModel.fetchTables(Me.restaurantId);
+
+                  break;
+                case 1:
+                  // Do something when the MenuScreenRoute tab is active
+                  _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
+
+                  break;
+                case 2:
+                  // Do something when the OrdersScreenRoute tab is active
+                  break;
+                case 3:
+                  // Do something when the PaymentScreenRoute tab is active
+                  break;
+                default:
+                  _settingsViewModel.fetchStaffDetails();
+                  break;
+              }
+            },
+          );
           return SafeArea(
             child: Scaffold(
-              appBar: DefaultAppBar(tabController, context, title),
+              appBar: DefaultAppBar(tabController, context),
               body: child,
               extendBody: true,
             ),
@@ -91,11 +114,10 @@ class _MainPageViewState extends State<MainPageView> {
     );
   }
 
-  AppBar DefaultAppBar(
-      TabController tabController, BuildContext context, String title) {
+  AppBar DefaultAppBar(TabController tabController, BuildContext context) {
     return AppBar(
       title: Text(
-        title,
+        Me.restaurantName,
         style: Theme.of(context)
             .textTheme
             .headlineLarge
