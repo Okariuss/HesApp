@@ -44,27 +44,31 @@ class SettingsScreen extends StatelessWidget {
         onPressed: () {
           viewModel.saveSettings().then((success) {
             if (success) {
-              showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: Text(LanguageItems.success),
-                  content: Text(LanguageItems.settingsSaved),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        LanguageItems.ok,
-                        style: TextStyle(color: Constants.buttonTextColor),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              _showSaveDialog(context);
             }
           });
         },
+      ),
+    );
+  }
+
+  Future<dynamic> _showSaveDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(LanguageItems.success),
+        content: Text(LanguageItems.settingsSaved),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              LanguageItems.ok,
+              style: TextStyle(color: Constants.buttonTextColor),
+            ),
+          ),
+        ],
       ),
     );
   }
