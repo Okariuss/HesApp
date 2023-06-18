@@ -55,6 +55,8 @@ class LanguageItems {
   static const username = "Username";
   static const phone = "Phone";
   static const userMail = "User E-mail";
+  static const success = "Success";
+  static const settingsSaved = "Settings saved successfully.";
 
   // Menu Texts
   static const noData = "No data available for that restaurant";

@@ -42,7 +42,28 @@ class SettingsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Constants.saveIcon,
         onPressed: () {
-          viewModel.saveSettings();
+          viewModel.saveSettings().then((success) {
+            if (success) {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text(LanguageItems.success),
+                  content: Text(LanguageItems.settingsSaved),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        LanguageItems.ok,
+                        style: TextStyle(color: Constants.buttonTextColor),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          });
         },
       ),
     );

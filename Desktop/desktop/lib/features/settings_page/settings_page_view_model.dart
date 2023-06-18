@@ -102,13 +102,15 @@ class SettingsViewModel extends ChangeNotifier {
   // Add additional methods for other fields
 
   // Save the settings
-  Future<void> saveSettings() async {
+  Future<bool> saveSettings() async {
     if (staff != null) {
       try {
         await updateStaffDetails(staff!);
+        return true;
       } catch (error) {
         // Handle error
       }
     }
+    return false;
   }
 }
