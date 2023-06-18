@@ -77,15 +77,26 @@ class TableDetailsView extends StatelessWidget {
         final selectedTable = viewModel.selectedTable;
 
         if (selectedTable == null) {
-          return const Text(LanguageItems.selectTable);
+          return const Center(
+            child: Text(
+              LanguageItems.selectTable,
+              style: TextStyle(color: Constants.primaryColor),
+            ),
+          );
         }
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(selectedTable.name),
+            Text(
+              selectedTable.name,
+              style: TextStyle(color: Constants.primaryColor),
+            ),
             Constants.kbigSizedBoxSize,
-            const Text(LanguageItems.noMember),
+            const Text(
+              LanguageItems.noMember,
+              style: TextStyle(color: Constants.primaryColor),
+            ),
             Constants.kbigSizedBoxSize,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
