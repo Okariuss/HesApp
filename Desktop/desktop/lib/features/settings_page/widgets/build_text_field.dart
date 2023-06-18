@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
-Widget buildTextField(BuildContext context, String labelText, String text,
-    double maxWidth, Function(String) onChanged) {
+Widget buildTextField({
+  required String labelText,
+  required String text,
+  required double maxWidth,
+  required void Function(String) onChanged,
+  bool? enabled,
+}) {
   return SizedBox(
     width: maxWidth,
     child: TextFormField(
@@ -9,6 +14,7 @@ Widget buildTextField(BuildContext context, String labelText, String text,
         labelText: labelText,
       ),
       initialValue: text,
+      enabled: enabled ?? true,
       onChanged: onChanged,
     ),
   );
