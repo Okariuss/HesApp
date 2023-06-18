@@ -2,7 +2,6 @@ import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/features/menu_page/models/menu_page_categories_model.dart';
 import 'package:desktop/features/menu_page/models/menu_page_items_model.dart';
 import 'package:desktop/features/menu_page/widgets/menu_item_widget.dart';
-import 'package:desktop/models/menu_item.dart';
 import 'package:flutter/material.dart';
 
 class CategoryList extends StatelessWidget {

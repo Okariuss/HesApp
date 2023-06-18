@@ -1,4 +1,7 @@
 class LanguageItems {
+  // Base URL
+  static const baseUrl = 'https://hesapp.link';
+
   // Common
   static const cancel = "Cancel";
   static const add = "Add";

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/utils/util.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,7 +8,7 @@ import 'settings_page.dart';
 
 class SettingsService {
   static Future<StaffModel> getStaffDetails() async {
-    var url = Uri.parse("https://hesapp.link/staff");
+    var url = Uri.parse("${LanguageItems.baseUrl}/staff");
 
     try {
       final http.Response response = await http.get(
@@ -31,7 +32,7 @@ class SettingsService {
   }
 
   static Future<String> updateStaffDetails(StaffModel staffData) async {
-    var url = Uri.parse("https://hesapp.link/staff");
+    var url = Uri.parse("${LanguageItems.baseUrl}/staff");
     final http.Response response = await http.put(
       url,
       body: jsonEncode(staffData),

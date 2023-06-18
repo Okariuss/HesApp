@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/utils/util.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:desktop/features/tables_page/tables_page.dart';
 
 class TableService {
-  static const String baseUrl = 'https://hesapp.link';
-
   static Future<List<TableModel>> fetchTables(int restaurantId) async {
-    final url = '$baseUrl/tables/$restaurantId';
+    final url = '${LanguageItems.baseUrl}/tables/$restaurantId';
     final response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -31,7 +30,7 @@ class TableService {
 
   static Future<TableModel> createTable(String? name) async {
     try {
-      var url = Uri.parse('$baseUrl/table');
+      var url = Uri.parse('${LanguageItems.baseUrl}/table');
       final http.Response response = await http.post(
         url,
         headers: <String, String>{
@@ -60,7 +59,7 @@ class TableService {
     String? name,
   ) async {
     try {
-      final url = Uri.parse('${baseUrl}/table/$tableId');
+      final url = Uri.parse('${LanguageItems.baseUrl}/table/$tableId');
       final response = await http.put(
         url,
         headers: <String, String>{
@@ -86,7 +85,7 @@ class TableService {
 
   static Future<void> deleteTable(int? tableId) async {
     try {
-      var url = Uri.parse("${baseUrl}/table/$tableId");
+      var url = Uri.parse("${LanguageItems.baseUrl}/table/$tableId");
       final http.Response response = await http.delete(
         url,
         headers: <String, String>{

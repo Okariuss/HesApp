@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:desktop/features/menu_page/models/menu_page_items_model.dart';
 import 'package:desktop/utils/util.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 class MenuItemsService {
   static Future<List<MenuItemsModel>> fetchMenuItems(int? categoryId) async {
     try {
-      final url = Uri.parse('https://hesapp.link/menu/items/$categoryId');
+      final url = Uri.parse('${LanguageItems.baseUrl}/menu/items/$categoryId');
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -34,7 +35,7 @@ class MenuItemsService {
     MenuItemsModel? menuItemsModel,
   }) async {
     try {
-      var url = Uri.parse("https://hesapp.link/menu/item");
+      var url = Uri.parse("${LanguageItems.baseUrl}/menu/item");
       final http.Response response = await http.post(
         url,
         headers: <String, String>{
@@ -69,7 +70,7 @@ class MenuItemsService {
   }) async {
     try {
       var url =
-          Uri.parse("https://hesapp.link/menu/item/${menuItemsModel?.id}");
+          Uri.parse("${LanguageItems.baseUrl}/menu/item/${menuItemsModel?.id}");
       final http.Response response = await http.put(
         url,
         headers: <String, String>{
@@ -100,7 +101,7 @@ class MenuItemsService {
 
   static Future<void> deleteMenuItem(int? itemId) async {
     try {
-      var url = Uri.parse("https://hesapp.link/menu/item/$itemId");
+      var url = Uri.parse("${LanguageItems.baseUrl}/menu/item/$itemId");
       final http.Response response = await http.delete(
         url,
         headers: <String, String>{

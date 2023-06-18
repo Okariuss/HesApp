@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:desktop/core/constants/error_messages_service.dart';
+import 'package:desktop/core/constants/language_items.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/util.dart';
@@ -12,7 +13,7 @@ class SignInService {
     String? password,
   ) async {
     try {
-      var url = Uri.parse("https://hesapp.link/auth/login");
+      var url = Uri.parse("${LanguageItems.baseUrl}/auth/login");
 
       final http.Response response = await http
           .post(
@@ -34,7 +35,6 @@ class SignInService {
         Me.setMail(email!);
         return "login successful";
       } else {
-        print('Response data: $responseData');
         if (responseData is Map<String, dynamic> &&
             responseData.containsKey('statusCode') &&
             responseData.containsKey('message')) {

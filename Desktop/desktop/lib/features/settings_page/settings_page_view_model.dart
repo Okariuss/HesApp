@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:desktop/features/settings_page/settings_page_service.dart';
 import 'package:desktop/utils/util.dart';
 import 'package:flutter/material.dart';
