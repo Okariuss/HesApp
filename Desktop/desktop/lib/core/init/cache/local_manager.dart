@@ -23,6 +23,7 @@ class LocalManager {
     if (_preferences != null) {
       await _preferences!.clear();
       await setBoolValue(PreferencesKeys.IS_FIRST_APP, true);
+      await setBoolValue(PreferencesKeys.IS_LOGGED_IN, false);
     }
   }
 

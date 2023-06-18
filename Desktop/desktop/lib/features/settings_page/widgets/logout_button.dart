@@ -15,6 +15,7 @@ class LogoutButton extends StatelessWidget {
           PreferencesKeys.IS_LOGGED_IN,
           false,
         );
+        print(LocalManager.instance.getBoolValue(PreferencesKeys.IS_LOGGED_IN));
         navigateToLoginPage(context);
       },
       icon: const Icon(Icons.logout_outlined),

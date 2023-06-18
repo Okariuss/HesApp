@@ -11,6 +11,7 @@ class SettingsViewModel extends ChangeNotifier {
     try {
       staff = await SettingsService.getStaffDetails();
       Me.setRestaurantId(staff?.restaurantId ?? 0);
+      updateStaffDetails(staff!);
       notifyListeners();
     } catch (error) {
       // Handle error

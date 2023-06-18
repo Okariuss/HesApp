@@ -8,6 +8,7 @@ class OnBoardGuard extends AutoRouteGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     bool isFirst = localManager.getBoolValue(PreferencesKeys.IS_FIRST_APP);
     if (isFirst) {
+      localManager.clearAllSaveFirst();
       resolver.next();
     } else {
       router.replaceNamed("/auth");

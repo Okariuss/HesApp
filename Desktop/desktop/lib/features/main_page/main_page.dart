@@ -67,57 +67,66 @@ class _MainPageViewState extends State<MainPageView> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MainPageViewModel(),
-      child: AutoTabsRouter.tabBar(
-        routes: const [
-          TablesScreenRoute(),
-          MenuScreenRoute(),
-          OrdersScreenRoute(),
-          PaymentScreenRoute(),
-        ],
-        builder: (context, child, tabController) {
-          tabController.addListener(
-            () {
-              final activeIndex = tabController.index;
-              // Perform actions based on the active tab index
-              switch (activeIndex) {
-                case 0:
-                  // Do something when the TablesScreenRoute tab is active
-                  _tablePageViewModel.fetchTables(Me.restaurantId);
+      child: Consumer<SettingsViewModel>(
+        builder: (context, settingsViewModel, _) {
+          _tablePageViewModel.fetchTables(Me.restaurantId);
 
-                  break;
-                case 1:
-                  // Do something when the MenuScreenRoute tab is active
-                  _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
-
-                  break;
-                case 2:
-                  // Do something when the OrdersScreenRoute tab is active
-                  break;
-                case 3:
-                  // Do something when the PaymentScreenRoute tab is active
-                  break;
-                default:
-                  _settingsViewModel.fetchStaffDetails();
-                  break;
-              }
+          return AutoTabsRouter.tabBar(
+            routes: const [
+              TablesScreenRoute(),
+              MenuScreenRoute(),
+              OrdersScreenRoute(),
+              PaymentScreenRoute(),
+            ],
+            builder: (context, child, tabController) {
+              tabController.addListener(
+                () {
+                  final activeIndex = tabController.index;
+                  // Perform actions based on the active tab index
+                  switch (activeIndex) {
+                    case 0:
+                      // Do something when the TablesScreenRoute tab is active
+                      _tablePageViewModel.fetchTables(Me.restaurantId);
+                      break;
+                    case 1:
+                      // Do something when the MenuScreenRoute tab is active
+                      _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
+                      break;
+                    case 2:
+                      // Do something when the OrdersScreenRoute tab is active
+                      break;
+                    case 3:
+                      // Do something when the PaymentScreenRoute tab is active
+                      break;
+                    default:
+                      _settingsViewModel.fetchStaffDetails();
+                      break;
+                  }
+                },
+              );
+              return SafeArea(
+                child: Scaffold(
+                  appBar:
+                      DefaultAppBar(tabController, context, settingsViewModel),
+                  body: child,
+                  extendBody: true,
+                ),
+              );
             },
-          );
-          return SafeArea(
-            child: Scaffold(
-              appBar: DefaultAppBar(tabController, context),
-              body: child,
-              extendBody: true,
-            ),
           );
         },
       ),
     );
   }
 
-  AppBar DefaultAppBar(TabController tabController, BuildContext context) {
+  AppBar DefaultAppBar(
+    TabController tabController,
+    BuildContext context,
+    SettingsViewModel settingsViewModel,
+  ) {
     return AppBar(
       title: Text(
-        Me.restaurantName,
+        settingsViewModel.staff?.restaurantName ?? "",
         style: Theme.of(context)
             .textTheme
             .headlineLarge

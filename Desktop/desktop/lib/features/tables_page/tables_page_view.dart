@@ -15,26 +15,21 @@ class TablesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      body: Consumer<TablesScreenViewModel>(
-        builder: (context, tableViewModel, _) {
-          return Row(
-            children: [
-              const Expanded(
-                flex: 2,
-                child: TableGridView(),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    height: screenSize.height,
-                    color: Constants.tableDetailsColor,
-                    child: const TableDetailsView()),
-              ),
-            ],
-          );
-        },
+      body: Row(
+        children: [
+          const Expanded(
+            flex: 2,
+            child: TableGridView(),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+                height: screenSize.height,
+                color: Constants.tableDetailsColor,
+                child: const TableDetailsView()),
+          ),
+        ],
       ),
       floatingActionButton: const TableFloatingActionButton(),
     );
