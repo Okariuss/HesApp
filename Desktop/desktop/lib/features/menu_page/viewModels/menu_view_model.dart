@@ -2,6 +2,7 @@ import 'package:desktop/features/menu_page/models/menu_page_categories_model.dar
 import 'package:desktop/features/menu_page/models/menu_page_items_model.dart';
 import 'package:desktop/features/menu_page/services/menu_page_categories_service.dart';
 import 'package:desktop/features/menu_page/services/menu_page_items_service.dart';
+import 'package:desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class MenuPageViewModel extends ChangeNotifier {
@@ -89,6 +90,7 @@ class MenuPageViewModel extends ChangeNotifier {
         menuCategories[categoryIndex]
             .items
             ?.add(MenuItemsModel.fromJson(newItem));
+        fetchMenuCategories(Me.restaurantId);
         sortMenuItems(categoryIndex);
         notifyListeners();
       } else {
@@ -110,13 +112,8 @@ class MenuPageViewModel extends ChangeNotifier {
     MenuItemsModel? menuItemsModel,
   }) async {
     try {
-      final updatedItem = await MenuItemsService.editMenuItem(
-        categoryId: categoryId,
-        menuItemsModel: menuItemsModel,
-      );
-
-      final categoryIndex =
-          menuCategories.indexWhere((category) => category.id == categoryId);
+      final categoryIndex = menuCategories
+          .indexWhere((category) => category.id == menuItemsModel?.categoryId);
       if (categoryIndex != -1) {
         final category = menuCategories[categoryIndex];
         final items = category.items;
@@ -124,8 +121,12 @@ class MenuPageViewModel extends ChangeNotifier {
           final itemIndex =
               items.indexWhere((item) => item.id == menuItemsModel?.id);
           if (itemIndex != -1) {
+            final updatedItem = await MenuItemsService.editMenuItem(
+              categoryId: categoryId,
+              menuItemsModel: menuItemsModel,
+            );
             category.items![itemIndex] = MenuItemsModel.fromJson(updatedItem);
-            sortMenuItems(categoryIndex);
+            fetchMenuCategories(Me.restaurantId);
             notifyListeners();
             return;
           }

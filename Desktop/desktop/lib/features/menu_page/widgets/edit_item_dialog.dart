@@ -173,6 +173,7 @@ class _EditItemDialogState extends State<EditItemDialog> {
 
         if (name.isNotEmpty && description.isNotEmpty && price > 0.0) {
           final updatedItem = MenuItemsModel(
+            categoryId: widget.category?.id,
             id: widget.item?.id,
             name: name,
             description: description,

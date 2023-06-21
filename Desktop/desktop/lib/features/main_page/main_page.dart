@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:desktop/core/constants/constants.dart';
 import 'package:desktop/core/constants/language_items.dart';
@@ -8,7 +10,6 @@ import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/utils/util.dart';
 
 import 'package:desktop/viewModel/home_page_view_model.dart';
-import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:desktop/widgets/custom_tab.dart';
 import 'package:desktop/widgets/orders_tab_with_count.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +24,14 @@ class MainPageView extends StatefulWidget {
 }
 
 class _MainPageViewState extends State<MainPageView> {
-  ValueNotifier<int> orderCount = ValueNotifier<int>(0);
-
-  late OrdersViewModel _ordersViewModel;
   late SettingsViewModel _settingsViewModel;
   late MenuPageViewModel _menuPageViewModel;
   late TablesScreenViewModel _tablePageViewModel;
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    _ordersViewModel = Provider.of<OrdersViewModel>(context, listen: false);
-    _ordersViewModel.addListener(_updateOrderCount);
-
     _settingsViewModel = Provider.of<SettingsViewModel>(context, listen: false);
     _settingsViewModel.fetchStaffDetails();
 
@@ -44,23 +40,23 @@ class _MainPageViewState extends State<MainPageView> {
 
     _tablePageViewModel =
         Provider.of<TablesScreenViewModel>(context, listen: false);
-    _tablePageViewModel.fetchTables(Me.restaurantId);
+    _tablePageViewModel
+        .fetchTables(Me.restaurantId)
+        .then((value) => _tablePageViewModel.getAllOrderCount());
 
-    _updateOrderCount();
+    // Start the timer to refresh orders every 5 seconds
+    _timer = Timer.periodic(Duration(seconds: 5), (_) {
+      _tablePageViewModel
+          .fetchTables(Me.restaurantId)
+          .then((value) => _tablePageViewModel.getAllOrderCount());
+    });
   }
 
   @override
   void dispose() {
-    _ordersViewModel.removeListener(_updateOrderCount);
+    // Cancel the timer when the widget is disposed
+    _timer.cancel();
     super.dispose();
-  }
-
-  void _updateOrderCount() {
-    setState(() {
-      orderCount.value = _ordersViewModel.orders
-          .where((member) => member.deliveries.isNotEmpty)
-          .length;
-    });
   }
 
   @override
@@ -69,8 +65,6 @@ class _MainPageViewState extends State<MainPageView> {
       create: (_) => MainPageViewModel(),
       child: Consumer<SettingsViewModel>(
         builder: (context, settingsViewModel, _) {
-          _tablePageViewModel.fetchTables(Me.restaurantId);
-
           return AutoTabsRouter.tabBar(
             routes: const [
               TablesScreenRoute(),
@@ -79,31 +73,6 @@ class _MainPageViewState extends State<MainPageView> {
               PaymentScreenRoute(),
             ],
             builder: (context, child, tabController) {
-              tabController.addListener(
-                () {
-                  final activeIndex = tabController.index;
-                  // Perform actions based on the active tab index
-                  switch (activeIndex) {
-                    case 0:
-                      // Do something when the TablesScreenRoute tab is active
-                      _tablePageViewModel.fetchTables(Me.restaurantId);
-                      break;
-                    case 1:
-                      // Do something when the MenuScreenRoute tab is active
-                      _menuPageViewModel.fetchMenuCategories(Me.restaurantId);
-                      break;
-                    case 2:
-                      // Do something when the OrdersScreenRoute tab is active
-                      break;
-                    case 3:
-                      // Do something when the PaymentScreenRoute tab is active
-                      break;
-                    default:
-                      _settingsViewModel.fetchStaffDetails();
-                      break;
-                  }
-                },
-              );
               return SafeArea(
                 child: Scaffold(
                   appBar:
@@ -146,7 +115,8 @@ class _MainPageViewState extends State<MainPageView> {
                   const CustomTab(text: LanguageItems.tables),
                   const CustomTab(text: LanguageItems.menu),
                   CustomTabCount(
-                      orderCount: orderCount, text: LanguageItems.orders),
+                      orderCount: _tablePageViewModel.allOrders ?? 0,
+                      text: LanguageItems.orders),
                   const CustomTab(text: LanguageItems.payments),
                 ],
                 indicatorPadding: Constants.defaultPadding,

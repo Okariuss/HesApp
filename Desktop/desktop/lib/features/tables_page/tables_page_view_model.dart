@@ -1,12 +1,17 @@
+import 'dart:async';
+
+import 'package:desktop/features/order_page/orders_page_service.dart';
 import 'package:desktop/features/tables_page/tables_page.dart';
 import 'package:desktop/features/tables_page/tables_page_service.dart';
+import 'package:desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class TablesScreenViewModel extends ChangeNotifier {
   List<TableModel> tables = [];
   TableModel? selectedTable;
+  int? allOrders;
 
-  void setSelectedTable(TableModel table) {
+  void setSelectedTable(TableModel? table) {
     selectedTable = table;
     notifyListeners();
   }
@@ -60,5 +65,27 @@ class TablesScreenViewModel extends ChangeNotifier {
     } catch (e) {
       throw Exception('Error deleting menu item: $e');
     }
+  }
+
+  Future<void> updateOrderStatus(int orderId, String newStatus) async {
+    try {
+      await OrderService.updateOrderStatus(orderId, newStatus);
+      await fetchTables(Me.restaurantId);
+      getAllOrderCount();
+      notifyListeners();
+    } on Exception catch (e) {
+      // TODO
+      throw Exception('Error updating order status: $e');
+    }
+  }
+
+  void getAllOrderCount() {
+    allOrders = tables
+        .expand((table) => table.users ?? [])
+        .where((user) => user.orders != null && user.orders!.isNotEmpty)
+        .map((user) => user.orders!)
+        .expand((orders) => orders)
+        .length;
+    notifyListeners(); // Notify listeners about the updated order count
   }
 }

@@ -4,9 +4,6 @@ import 'package:desktop/features/tables_page/widgets/add_table_dialog.dart';
 import 'package:desktop/features/tables_page/widgets/table_details.view.dart';
 import 'package:desktop/features/tables_page/widgets/table_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'tables_page_view_model.dart';
 
 @RoutePage()
 class TablesScreen extends StatelessWidget {

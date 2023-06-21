@@ -1,6 +1,8 @@
 import 'package:desktop/core/constants/constants.dart';
+import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/widgets/custom_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomTabCount extends StatelessWidget {
   const CustomTabCount({
@@ -9,7 +11,7 @@ class CustomTabCount extends StatelessWidget {
     required this.text,
   }) : super(key: key);
 
-  final ValueNotifier<int> orderCount;
+  final int orderCount;
   final String text;
 
   @override
@@ -22,35 +24,27 @@ class CustomTabCount extends StatelessWidget {
       child: Stack(
         children: [
           CustomTab(text: text),
-          ValueListenableBuilder<int>(
-            valueListenable: orderCount,
-            builder: (context, value, _) {
-              if (value == 0) {
-                return Container(); // Hide the count when it is zero
-              }
-              return Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  width: circleSize,
-                  height: circleSize,
-                  decoration: const BoxDecoration(
-                    color: Constants.buttonTextColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      value.toString(),
-                      style: const TextStyle(
-                        color: Constants.primaryColor,
-                        fontSize: Constants.contentSize,
-                        fontWeight: Constants.bold,
-                      ),
-                    ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: circleSize,
+              height: circleSize,
+              decoration: const BoxDecoration(
+                color: Constants.buttonTextColor,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  orderCount.toString(),
+                  style: const TextStyle(
+                    color: Constants.primaryColor,
+                    fontSize: Constants.contentSize,
+                    fontWeight: Constants.bold,
                   ),
                 ),
-              );
-            },
+              ),
+            ),
           ),
         ],
       ),

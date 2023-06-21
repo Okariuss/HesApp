@@ -11,67 +11,6 @@ class TableDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final members = viewModel.getMembersAtTable(tableName);
-    // if (members.isNotEmpty) {
-    //   return Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       MemberDeliveriesListView(members: members.cast<Member>()),
-    //       Constants.kdefaultSizedBoxSize,
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         children: [
-    //           SizedBox(
-    //             width: MediaQuery.of(context).size.height / 4,
-    //             child: ElevatedButton.icon(
-    //                 onPressed: () {
-    //                   viewModel.renameTableDialog(
-    //                       context,
-    //                       tableName,
-    //                       (newName) =>
-    //                           viewModel.renameTable(tableName, newName));
-    //                 },
-    //                 icon: const Icon(Icons.edit),
-    //                 label: const Text(LanguageItems.rename)),
-    //           ),
-    //           SizedBox(
-    //             width: MediaQuery.of(context).size.height / 4,
-    //             child: ElevatedButton.icon(
-    //               onPressed: () {},
-    //               icon: const Icon(Icons.delete),
-    //               label: const Text(LanguageItems.remove),
-    //               style: ButtonStyle(
-    //                   backgroundColor:
-    //                       MaterialStateProperty.all(Constants.errorColor)),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       Constants.kdefaultSizedBoxSize,
-    //       ElevatedButton.icon(
-    //         onPressed: () {
-    //           viewModel.moveSelectedMembersToTableDialog(context, tableName);
-    //         },
-    //         icon: const Icon(Icons.arrow_forward),
-    //         label: const Text(LanguageItems.moveSelectedMembers),
-    //       ),
-    //       Constants.ksmallSizedBoxSize,
-    //       ElevatedButton.icon(
-    //         onPressed: () {
-    //           viewModel.moveMembersToTableDialog(
-    //             context,
-    //             tableName,
-    //             (newTableName) {},
-    //           );
-    //         },
-    //         icon: const Icon(Icons.move_to_inbox),
-    //         label: const Text(LanguageItems.moveAllMembers),
-    //       ),
-    //     ],
-    //   );
-    // }
-    // else {
     return Consumer<TablesScreenViewModel>(
       builder: (context, viewModel, _) {
         final selectedTable = viewModel.selectedTable;
@@ -84,64 +23,207 @@ class TableDetailsView extends StatelessWidget {
             ),
           );
         }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              selectedTable.name,
-              style: TextStyle(color: Constants.primaryColor),
-            ),
-            Constants.kbigSizedBoxSize,
-            const Text(
-              LanguageItems.noMember,
-              style: TextStyle(color: Constants.primaryColor),
-            ),
-            Constants.kbigSizedBoxSize,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.height / 4,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => RenameTableDialog(table: selectedTable),
-                      ).then((newName) {
-                        if (newName != null) {
-                          viewModel.updateTable(selectedTable.id, newName);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.edit),
-                    label: const Text(LanguageItems.rename),
+
+        if (selectedTable.users!.isNotEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  selectedTable.name,
+                  style: const TextStyle(
+                    color: Constants.primaryColor,
+                    fontWeight: Constants.bold,
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.height / 4,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) =>
-                            RemoveTableDialog(tableName: selectedTable),
-                      );
-                    },
-                    icon: const Icon(Icons.delete),
-                    label: const Text(LanguageItems.remove),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Constants.errorColor),
+              ),
+              Constants.ksmallSizedBoxSize,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.height / 4,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) =>
+                              RenameTableDialog(table: selectedTable),
+                        ).then((newName) {
+                          if (newName != null) {
+                            viewModel.updateTable(selectedTable.id, newName);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.edit),
+                      label: const Text(LanguageItems.rename),
                     ),
                   ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.height / 4,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) =>
+                              RemoveTableDialog(tableName: selectedTable),
+                        );
+                      },
+                      icon: const Icon(Icons.delete),
+                      label: const Text(LanguageItems.remove),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Constants.errorColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(
+                height: 30,
+                color: Constants.buttonTextColor,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: selectedTable.users!.length,
+                  itemBuilder: (context, index) {
+                    final user = selectedTable.users![index];
+
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${user.username}\'s deliveries:',
+                          style: const TextStyle(color: Constants.primaryColor),
+                        ),
+                        Constants.ktooSmallSizedBoxSize,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: user.orders!.map(
+                            (order) {
+                              return Column(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: order.orderItems!.map(
+                                      (item) {
+                                        return Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '- ${item.menuItemName}',
+                                                  style: const TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                ),
+                                                Text(
+                                                  '(${item.quantity} x ${item.price} TL)',
+                                                  style: const TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Constants.ktooSmallSizedBoxSize,
+                                          ],
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      'Total: ${order.totalAmount} TL',
+                                      style: TextStyle(
+                                          color: Constants.primaryColor,
+                                          fontWeight: Constants.bold),
+                                    ),
+                                  ),
+                                  const Divider(
+                                    height: 30,
+                                    color: Constants.buttonTextColor,
+                                  ),
+                                ],
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-              ],
-            ),
-          ],
-        );
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                selectedTable.name,
+                style: const TextStyle(color: Constants.primaryColor),
+              ),
+              Constants.kbigSizedBoxSize,
+              const Text(
+                LanguageItems.noMember,
+                style: TextStyle(color: Constants.primaryColor),
+              ),
+              Constants.kbigSizedBoxSize,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.height / 4,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) =>
+                              RenameTableDialog(table: selectedTable),
+                        ).then((newName) {
+                          if (newName != null) {
+                            viewModel.updateTable(selectedTable.id, newName);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.edit),
+                      label: const Text(LanguageItems.rename),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.height / 4,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) =>
+                              RemoveTableDialog(tableName: selectedTable),
+                        ).then((value) => viewModel.setSelectedTable(null));
+                      },
+                      icon: const Icon(Icons.delete),
+                      label: const Text(LanguageItems.remove),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Constants.errorColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }
       },
-    ); // Return an empty SizedBox if there are no members
-    // }
+    );
   }
 }
