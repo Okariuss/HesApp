@@ -5,7 +5,6 @@ import 'package:desktop/features/menu_page/viewModels/menu_view_model.dart';
 import 'package:desktop/features/settings_page/settings_page_view_model.dart';
 import 'package:desktop/features/tables_page/tables_page_view_model.dart';
 import 'package:desktop/utils/util.dart';
-import 'package:desktop/viewModel/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +35,6 @@ class MainApp extends StatelessWidget {
                   create: (context) => TablesScreenViewModel()),
               ChangeNotifierProvider(create: (context) => MenuPageViewModel()),
               ChangeNotifierProvider(create: (context) => SettingsViewModel()),
-              ChangeNotifierProvider(create: (context) => OrdersViewModel()),
             ],
             child: MainWidget(appRouter: _appRouter),
           );
