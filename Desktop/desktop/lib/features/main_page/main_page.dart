@@ -115,7 +115,7 @@ class _MainPageViewState extends State<MainPageView> {
                   const CustomTab(text: LanguageItems.tables),
                   const CustomTab(text: LanguageItems.menu),
                   CustomTabCount(
-                      orderCount: _tablePageViewModel.allOrders ?? 0,
+                      orderCount: _tablePageViewModel.allOrders,
                       text: LanguageItems.orders),
                   const CustomTab(text: LanguageItems.payments),
                 ],

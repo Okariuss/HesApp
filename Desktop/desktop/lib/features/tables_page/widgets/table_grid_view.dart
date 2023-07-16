@@ -20,8 +20,6 @@ class TableGridView extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final table = viewModel.tables[index];
-            // final tableColor = viewModel.getTableColor(table.table);
-            // final memberCount = viewModel.getMemberCount(table.table);
 
             return GestureDetector(
               onTap: () {
@@ -30,8 +28,7 @@ class TableGridView extends StatelessWidget {
               child: Container(
                 margin: Constants.smallPadding,
                 decoration: BoxDecoration(
-                  // color: tableColor,
-                  color: Colors.red,
+                  color: table.color,
                   borderRadius: Constants.smallBorderRadius,
                 ),
                 child: Column(

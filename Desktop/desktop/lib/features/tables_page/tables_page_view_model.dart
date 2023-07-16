@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class TablesScreenViewModel extends ChangeNotifier {
   List<TableModel> tables = [];
   TableModel? selectedTable;
-  int? allOrders;
+  int allOrders = 0;
 
   void setSelectedTable(TableModel? table) {
     selectedTable = table;
