@@ -95,9 +95,12 @@ class TableDetailsView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${user.username}\'s deliveries:',
-                          style: const TextStyle(color: Constants.primaryColor),
+                        Center(
+                          child: Text(
+                            '${user.username}\'s deliveries:',
+                            style:
+                                const TextStyle(color: Constants.primaryColor),
+                          ),
                         ),
                         Constants.ktooSmallSizedBoxSize,
                         Column(
@@ -171,14 +174,10 @@ class TableDetailsView extends StatelessWidget {
             children: [
               Text(
                 selectedTable.name,
-                style: const TextStyle(color: Constants.primaryColor),
+                style: const TextStyle(
+                    color: Constants.primaryColor, fontWeight: Constants.bold),
               ),
-              Constants.kbigSizedBoxSize,
-              const Text(
-                LanguageItems.noMember,
-                style: TextStyle(color: Constants.primaryColor),
-              ),
-              Constants.kbigSizedBoxSize,
+              Constants.ksmallSizedBoxSize,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -219,6 +218,12 @@ class TableDetailsView extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              Constants.kbigSizedBoxSize,
+              const Text(
+                LanguageItems.noMember,
+                style: TextStyle(
+                    color: Constants.primaryColor, fontWeight: Constants.bold),
               ),
             ],
           );

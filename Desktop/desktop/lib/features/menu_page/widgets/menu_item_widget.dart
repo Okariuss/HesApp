@@ -58,7 +58,7 @@ class MenuItemWidget extends StatelessWidget {
         Text(item.description ?? ""),
         Constants.ktooSmallSizedBoxSize,
         Text(
-          '\$${item.price?.toStringAsFixed(2)}',
+          '${item.price?.toStringAsFixed(2)} TL',
           style: const TextStyle(
             fontSize: Constants.contentSize,
             fontWeight: Constants.bold,
